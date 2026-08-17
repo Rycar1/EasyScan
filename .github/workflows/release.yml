@@ -202,4 +202,3 @@ jobs:
               --title "EasyScan $RELEASE_TAG" \
               --generate-notes
           fi
-
