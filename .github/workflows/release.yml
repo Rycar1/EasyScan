@@ -1,0 +1,201 @@
+name: Build and publish release
+
+on:
+  push:
+    tags:
+      - "v*"
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "要构建并发布的 Git tag，例如 v0.1.0"
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+env:
+  GO_VERSION: "1.26.x"
+  NODE_VERSION: "22.x"
+  WAILS_VERSION: "v2.13.0"
+
+jobs:
+  build:
+    name: Build ${{ matrix.name }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: windows-amd64
+            os: windows-2025
+            platform: windows/amd64
+            package_name: EasyScan-windows-amd64
+            archive_name: EasyScan-windows-amd64.zip
+          - name: linux-amd64
+            os: ubuntu-24.04
+            platform: linux/amd64
+            package_name: EasyScan-linux-amd64
+            archive_name: EasyScan-linux-amd64.tar.gz
+          - name: macos-arm64
+            os: macos-15
+            platform: darwin/arm64
+            package_name: EasyScan-macos-arm64
+            archive_name: EasyScan-macos-arm64.tar.gz
+          - name: macos-amd64
+            os: macos-15-intel
+            platform: darwin/amd64
+            package_name: EasyScan-macos-amd64
+            archive_name: EasyScan-macos-amd64.tar.gz
+
+    steps:
+      - name: Checkout release ref
+        uses: actions/checkout@v7
+        with:
+          ref: ${{ inputs.tag || github.ref }}
+          fetch-depth: 0
+
+      - name: Set up Go
+        uses: actions/setup-go@v7
+        with:
+          go-version: ${{ env.GO_VERSION }}
+          cache: true
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Install Linux build dependencies
+        if: runner.os == 'Linux'
+        shell: bash
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libgtk-3-dev libwebkit2gtk-4.1-dev pkg-config
+
+      - name: Install frontend dependencies
+        shell: bash
+        run: npm ci --prefix frontend
+
+      - name: Build frontend
+        shell: bash
+        run: npm run build --prefix frontend
+
+      - name: Download Go modules
+        shell: bash
+        run: go mod download
+
+      - name: Install Wails CLI
+        shell: bash
+        run: go install github.com/wailsapp/wails/v2/cmd/wails@${{ env.WAILS_VERSION }}
+
+      - name: Add Go bin to PATH (Unix)
+        if: runner.os != 'Windows'
+        shell: bash
+        run: echo "$(go env GOPATH)/bin" >> "$GITHUB_PATH"
+
+      - name: Add Go bin to PATH (Windows)
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          $goBin = Join-Path (go env GOPATH) "bin"
+          $goBin | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
+
+      - name: Build Windows desktop app
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: wails build -clean -s -m -platform ${{ matrix.platform }} -webview2 browser -nsis
+
+      - name: Build Linux desktop app
+        if: matrix.platform == 'linux/amd64'
+        shell: bash
+        run: wails build -clean -s -m -platform linux/amd64 -tags webkit2_41
+
+      - name: Build macOS desktop app
+        if: startsWith(matrix.platform, 'darwin/')
+        shell: bash
+        run: wails build -clean -s -m -platform "${{ matrix.platform }}"
+
+      - name: Package Windows release
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          $stage = Join-Path $env:GITHUB_WORKSPACE "dist\${{ matrix.package_name }}"
+          New-Item -ItemType Directory -Force -Path $stage | Out-Null
+          Copy-Item "build\bin\easyscan-desktop.exe" (Join-Path $stage "easyscan-desktop.exe")
+          Copy-Item "easyscan.yaml", "features.yaml", "README.md", "LICENSE" $stage
+          Copy-Item "rules" (Join-Path $stage "rules") -Recurse
+          Copy-Item "fingerprints" (Join-Path $stage "fingerprints") -Recurse
+
+          Get-ChildItem "build\bin" -Filter "*-installer.exe" -File -ErrorAction SilentlyContinue |
+            Copy-Item -Destination $stage
+
+          Compress-Archive -Path (Join-Path $stage "*") -DestinationPath (Join-Path $env:GITHUB_WORKSPACE "dist\${{ matrix.archive_name }}") -Force
+
+      - name: Package Unix release
+        if: runner.os != 'Windows'
+        shell: bash
+        run: |
+          set -euo pipefail
+          stage="dist/${{ matrix.package_name }}"
+          mkdir -p "$stage"
+
+          if [[ "${{ matrix.platform }}" == darwin/* ]]; then
+            cp -R "build/bin/EasyScan.app" "$stage/"
+          else
+            install -m 0755 "build/bin/easyscan-desktop" "$stage/easyscan-desktop"
+          fi
+
+          cp easyscan.yaml features.yaml README.md LICENSE "$stage/"
+          cp -R rules "$stage/rules"
+          cp -R fingerprints "$stage/fingerprints"
+          tar -C dist -czf "dist/${{ matrix.archive_name }}" "${{ matrix.package_name }}"
+
+      - name: Upload packaged release artifact
+        uses: actions/upload-artifact@v7
+        with:
+          name: ${{ matrix.package_name }}
+          path: dist/${{ matrix.archive_name }}
+          if-no-files-found: error
+          retention-days: 7
+
+  release:
+    name: Create GitHub Release
+    needs: build
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: write
+    env:
+      RELEASE_TAG: ${{ inputs.tag || github.ref_name }}
+
+    steps:
+      - name: Download packaged artifacts
+        uses: actions/download-artifact@v8
+        with:
+          pattern: EasyScan-*
+          path: release-assets
+          merge-multiple: true
+
+      - name: Generate checksums
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd release-assets
+          sha256sum -- * > SHA256SUMS.txt
+
+      - name: Publish GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          if gh release view "$RELEASE_TAG" >/dev/null 2>&1; then
+            gh release upload "$RELEASE_TAG" release-assets/* --clobber
+          else
+            gh release create "$RELEASE_TAG" release-assets/* \
+              --verify-tag \
+              --title "EasyScan $RELEASE_TAG" \
+              --generate-notes
+          fi
