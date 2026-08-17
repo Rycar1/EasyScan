@@ -1,0 +1,443 @@
+rules:
+  - id: core-cnai-0001-ollama
+    name: Ollama
+    category: ai-platform
+    vendor: Ollama
+    priority: 82
+    tags: [ollama, llm, ai, inference]
+    match:
+      strategy: any
+      probes:
+        - id: ollama-signals
+          matchers:
+            - type: body.contains
+              value: "Ollama is running"
+              weight: 100
+              evidence: Ollama API root banner
+    metadata:
+      references: ["https://ollama.com/", "https://github.com/projectdiscovery/nuclei-templates"]
+      confidence: high
+    examples:
+      positive:
+        - body: 'Ollama is running'
+
+  - id: core-cnai-0002-open-webui
+    name: Open WebUI
+    category: ai-platform
+    vendor: Open WebUI
+    priority: 80
+    tags: [open-webui, llm, ai, chat]
+    match:
+      strategy: any
+      probes:
+        - id: open-webui-signals
+          matchers:
+            - type: title.contains
+              value: Open WebUI
+              weight: 100
+              evidence: Open WebUI page title
+            - type: body.contains
+              value: "static/splash.png"
+              weight: 70
+              evidence: Open WebUI splash asset
+    metadata:
+      references: ["https://openwebui.com/", "https://github.com/open-webui/open-webui"]
+      confidence: medium
+    examples:
+      positive:
+        - body: '<title>Open WebUI</title>'
+
+  - id: core-cnai-0003-dify
+    name: Dify
+    category: ai-platform
+    vendor: LangGenius
+    priority: 80
+    tags: [dify, llmops, ai, workflow]
+    match:
+      strategy: any
+      probes:
+        - id: dify-signals
+          matchers:
+            - type: body.contains
+              value: "/console/api/"
+              weight: 60
+              evidence: Dify console API path
+            - type: title.contains
+              value: Dify
+              weight: 80
+              evidence: Dify page title
+    metadata:
+      references: ["https://dify.ai/", "https://github.com/langgenius/dify"]
+      confidence: medium
+    examples:
+      positive:
+        - body: '<title>Dify</title>'
+
+  - id: core-cnai-0004-mlflow
+    name: MLflow
+    category: ai-platform
+    vendor: MLflow
+    priority: 80
+    tags: [mlflow, mlops, ai, tracking]
+    match:
+      strategy: any
+      probes:
+        - id: mlflow-signals
+          matchers:
+            - type: title.contains
+              value: MLflow
+              weight: 100
+              evidence: MLflow page title
+            - type: body.contains
+              value: "static-files/static/"
+              weight: 60
+              evidence: MLflow static asset path
+    metadata:
+      references: ["https://mlflow.org/", "https://github.com/projectdiscovery/nuclei-templates"]
+      confidence: high
+    examples:
+      positive:
+        - body: '<title>MLflow</title>'
+
+  - id: core-cnai-0005-jupyter
+    name: Jupyter
+    category: ai-platform
+    vendor: Project Jupyter
+    priority: 80
+    tags: [jupyter, notebook, ai, python]
+    match:
+      strategy: any
+      probes:
+        - id: jupyter-signals
+          matchers:
+            - type: title.contains
+              value: Jupyter Notebook
+              weight: 90
+              evidence: Jupyter Notebook title
+            - type: title.contains
+              value: JupyterLab
+              weight: 90
+              evidence: JupyterLab title
+            - type: body.contains
+              value: "jupyter-config-data"
+              weight: 80
+              evidence: Jupyter config data marker
+    metadata:
+      references: ["https://jupyter.org/", "https://github.com/0x727/FingerprintHub"]
+      confidence: high
+    examples:
+      positive:
+        - body: '<title>Jupyter Notebook</title>'
+
+  - id: core-cnai-0006-argocd
+    name: Argo CD
+    category: cloud-native
+    vendor: Argo Project
+    priority: 82
+    tags: [argocd, kubernetes, gitops, cd]
+    match:
+      strategy: any
+      probes:
+        - id: argocd-signals
+          matchers:
+            - type: header.contains
+              key: grpc-metadata-content-type
+              value: application/grpc
+              weight: 90
+              evidence: Argo CD gRPC metadata header
+            - type: title.contains
+              value: Argo CD
+              weight: 90
+              evidence: Argo CD page title
+            - type: body.contains
+              value: "argoproj.github.io"
+              weight: 70
+              evidence: Argo CD project reference
+    metadata:
+      references: ["https://argoproj.github.io/cd/", "https://github.com/projectdiscovery/nuclei-templates"]
+      confidence: high
+    examples:
+      positive:
+        - header: {grpc-metadata-content-type: "application/grpc"}
+
+  - id: core-cnai-0007-kubernetes-dashboard
+    name: Kubernetes Dashboard
+    category: cloud-native
+    vendor: Kubernetes
+    priority: 82
+    tags: [kubernetes, k8s, dashboard, cloud-native]
+    match:
+      strategy: any
+      probes:
+        - id: k8s-dashboard-signals
+          matchers:
+            - type: body.contains
+              value: "assets/images/kubernetes-logo.png"
+              weight: 100
+              evidence: Kubernetes Dashboard logo asset
+            - type: header.regex
+              key: WWW-Authenticate
+              value: (?i)realm="kubernetes"
+              weight: 90
+              evidence: Kubernetes basic-auth realm
+            - type: title.contains
+              value: Kubernetes Dashboard
+              weight: 90
+              evidence: Kubernetes Dashboard title
+    metadata:
+      references: ["https://kubernetes.io/", "https://github.com/0x727/FingerprintHub"]
+      confidence: high
+    examples:
+      positive:
+        - body: '<img src="assets/images/kubernetes-logo.png">'
+
+  - id: core-cnai-0008-kubesphere
+    name: KubeSphere
+    category: cloud-native
+    vendor: KubeSphere
+    priority: 82
+    tags: [kubesphere, kubernetes, cloud-native, paas]
+    match:
+      strategy: any
+      probes:
+        - id: kubesphere-signals
+          matchers:
+            - type: title.contains
+              value: KubeSphere
+              weight: 100
+              evidence: KubeSphere page title
+            - type: body.contains
+              value: "window.config"
+              weight: 40
+              evidence: KubeSphere console config bootstrap
+            - type: body.contains
+              value: "kubesphere.io"
+              weight: 70
+              evidence: KubeSphere project reference
+    metadata:
+      references: ["https://kubesphere.io/", "https://github.com/kubesphere/kubesphere"]
+      confidence: medium
+    examples:
+      positive:
+        - body: '<title>KubeSphere</title>'
+
+  - id: core-cnai-0009-rancher
+    name: Rancher
+    category: cloud-native
+    vendor: SUSE
+    priority: 80
+    tags: [rancher, kubernetes, cloud-native]
+    match:
+      strategy: any
+      probes:
+        - id: rancher-signals
+          matchers:
+            - type: cookie.contains
+              value: R_SESS
+              weight: 90
+              evidence: Rancher session cookie
+            - type: body.contains
+              value: "ember-basic-dropdown-wormhole"
+              weight: 70
+              evidence: Rancher Ember UI marker
+    metadata:
+      references: ["https://www.rancher.com/", "https://github.com/0x727/FingerprintHub"]
+      confidence: medium
+    examples:
+      positive:
+        - header: {Set-Cookie: "R_SESS=abc; Path=/"}
+
+  - id: core-cnai-0010-traefik
+    name: Traefik
+    category: cloud-native
+    vendor: Traefik Labs
+    priority: 78
+    tags: [traefik, proxy, cloud-native, ingress]
+    match:
+      strategy: any
+      probes:
+        - id: traefik-signals
+          matchers:
+            - type: header.regex
+              key: Content-Security-Policy
+              value: (?i)\*\.traefik\.io
+              weight: 90
+              evidence: Traefik dashboard CSP directive
+            - type: title.contains
+              value: Traefik
+              weight: 70
+              evidence: Traefik dashboard title
+    metadata:
+      references: ["https://traefik.io/", "https://github.com/0x727/FingerprintHub"]
+      confidence: medium
+    examples:
+      positive:
+        - header: {Content-Security-Policy: "default-src 'self' *.traefik.io"}
+
+  - id: core-cnai-0011-vault
+    name: HashiCorp Vault
+    category: cloud-native
+    vendor: HashiCorp
+    priority: 82
+    tags: [vault, secrets, hashicorp, cloud-native]
+    match:
+      strategy: any
+      probes:
+        - id: vault-signals
+          matchers:
+            - type: body.contains
+              value: 'vault/config/environment'
+              weight: 100
+              evidence: Vault UI config environment meta
+            - type: body.contains
+              value: "hashicorp vault api"
+              weight: 80
+              evidence: Vault API banner
+            - type: title.contains
+              value: Vault
+              weight: 50
+              evidence: Vault UI title
+    metadata:
+      references: ["https://developer.hashicorp.com/vault", "https://github.com/projectdiscovery/nuclei-templates"]
+      confidence: high
+    examples:
+      positive:
+        - body: '<meta name="vault/config/environment" content="">'
+
+  - id: core-cnai-0012-keycloak
+    name: Keycloak
+    category: cloud-native
+    vendor: Red Hat
+    priority: 82
+    tags: [keycloak, iam, sso, identity]
+    match:
+      strategy: any
+      probes:
+        - id: keycloak-signals
+          matchers:
+            - type: body.contains
+              value: "<span>Keycloak</span>"
+              weight: 100
+              evidence: Keycloak login brand span
+            - type: body.contains
+              value: "/keycloak/img/favicon.ico"
+              weight: 90
+              evidence: Keycloak favicon asset
+            - type: body.contains
+              value: "kc-form-buttons"
+              weight: 70
+              evidence: Keycloak login form marker
+    metadata:
+      references: ["https://www.keycloak.org/", "https://github.com/projectdiscovery/nuclei-templates"]
+      confidence: high
+    examples:
+      positive:
+        - body: '<span>Keycloak</span>'
+
+  - id: core-cnai-0013-cockpit
+    name: Cockpit
+    category: cloud-native
+    vendor: Cockpit Project
+    priority: 78
+    tags: [cockpit, server-management, linux]
+    match:
+      strategy: any
+      probes:
+        - id: cockpit-signals
+          matchers:
+            - type: body.contains
+              value: "cockpit/static/login.js"
+              weight: 100
+              evidence: Cockpit login script asset
+            - type: title.contains
+              value: Cockpit
+              weight: 60
+              evidence: Cockpit page title
+    metadata:
+      references: ["https://cockpit-project.org/", "https://github.com/projectdiscovery/nuclei-templates"]
+      confidence: high
+    examples:
+      positive:
+        - body: '<script src="cockpit/static/login.js"></script>'
+
+  - id: core-cnai-0014-prometheus
+    name: Prometheus
+    category: observability
+    vendor: Prometheus
+    priority: 78
+    tags: [prometheus, monitoring, observability, metrics]
+    match:
+      strategy: any
+      probes:
+        - id: prometheus-signals
+          matchers:
+            - type: title.contains
+              value: Prometheus Time Series Collection
+              weight: 90
+              evidence: Prometheus UI title
+            - type: body.contains
+              value: "PROMETHEUS_CONSOLES"
+              weight: 60
+              evidence: Prometheus console template marker
+    metadata:
+      references: ["https://prometheus.io/", "https://github.com/0x727/FingerprintHub"]
+      confidence: medium
+    examples:
+      positive:
+        - body: '<title>Prometheus Time Series Collection and Processing Server</title>'
+
+  - id: core-cnai-0015-hfish-honeypot
+    name: HFish Honeypot
+    category: honeypot
+    vendor: HFish
+    priority: 90
+    tags: [hfish, honeypot, deception]
+    match:
+      strategy: any
+      probes:
+        - id: hfish-signals
+          matchers:
+            - type: body.contains
+              value: 'src="/static/images/hfish.png"'
+              weight: 100
+              evidence: HFish logo asset
+            - type: body.contains
+              value: "https://github.com/hacklcx/hfish"
+              weight: 100
+              evidence: HFish project link
+            - type: title.contains
+              value: HFish
+              weight: 80
+              evidence: HFish page title
+    metadata:
+      references: ["https://github.com/hacklcx/HFish", "https://github.com/0x727/FingerprintHub"]
+      confidence: high
+    examples:
+      positive:
+        - body: '<img src="/static/images/hfish.png">'
+
+  - id: core-cnai-0016-tpot-honeypot
+    name: T-Pot Honeypot
+    category: honeypot
+    vendor: Telekom Security
+    priority: 90
+    tags: [tpot, honeypot, deception]
+    match:
+      strategy: all
+      probes:
+        - id: tpot-signals
+          matchers:
+            - type: title.contains
+              value: T-Pot
+              weight: 100
+              evidence: T-Pot dashboard title
+            - type: body.contains
+              value: "T-Pot @ Github"
+              weight: 100
+              evidence: T-Pot dashboard GitHub link
+    metadata:
+      references: ["https://github.com/telekom-security/tpotce", "https://github.com/projectdiscovery/nuclei-templates"]
+      confidence: high
+    examples:
+      positive:
+        - body: '<title>T-Pot</title><a>T-Pot @ Github</a><a>T-Pot ReadMe</a>'

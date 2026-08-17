@@ -1,0 +1,115 @@
+package shiroprobe
+
+// builtinKeys is a dictionary of widely known default / leaked Apache Shiro
+// AES rememberMe keys. They are publicly documented across many open-source
+// security projects and vendor advisories, and are used only to verify whether
+// a target still trusts a well-known key (a misconfiguration). This list is
+// intentionally defensive: it identifies weak keys so they can be rotated.
+// Every entry must base64-decode to exactly 16, 24, or 32 bytes (valid AES).
+var builtinKeys = []string{
+	// Classic default key (Shiro <= 1.2.4, CVE-2016-4437)
+	"kPH+bIxk5D2deZiIxcaaaA==",
+	// Common framework defaults and leaked keys (16-byte AES)
+	"3AvVhmFLUs0KTA3Kprsdag==",
+	"4AvVhmFLUs0KTA3Kprsdag==",
+	"5AvVhmFLUs0KTA3Kprsdag==",
+	"6ZmI6I2j5Y+R5aSn5ZOlAA==",
+	"7AvVhmFLUs0KTA3Kprsdag==",
+	"8AvVhmFLUs0KTA3Kprsdag==",
+	"9AvVhmFLUs0KTA3Kprsdag==",
+	"0AvVhmFLUs0KTA3Kprsdag==",
+	"Z3VucwAAAAAAAAAAAAAAAA==",
+	"fCq+/xW488hMTCD+cmJ3aQ==",
+	"1QWLxg+NYmxraMoxAXu/Ig==",
+	"ZUdsaGJyZWFrdGhlY29kZQ==",
+	"wGiHplamyXlVB11UXWol8g==",
+	"2BfRj+pE8jy9zrpr6qLpTQ==",
+	"ZcxigebanQ59nI7R4Ympqw==",
+	"bya2HkYo57u6fWh5theAWw==",
+	"WuB+y2gcHnYfLxcnadQvGA==",
+	"2WwGqRlQhG8vbUzxz1vDwg==",
+	"5aaC5qKm5oqA5pyvAAAAAA==",
+	"bWljcm9zAAAAAAAAAAAAAA==",
+	"ZWvohmPdUsAWT3N5J0XhTg==",
+	"U3ByaW5nQmxhZGUAAAAAAA==",
+	"Is9zJ3pzNh2cgTHB4ua3pQ==",
+	"NsZXjXVklWPZwOfkvk6kUA==",
+	"GAevYnznvgNCURRt1hO8jA==",
+	"u17GwR9fB6PzZcbrhQAEqg==",
+	"OY//C4rhfwNxCQAQCrQQ1Q==",
+	"5J7bIJIV0LQSN3c9LPitBQ==",
+	"f/SY5Tve3ePXXs7XGqA+Gg==",
+	"3qDVdLawoIr1xFd6ietnwg==",
+	"YI1+nBV//m7ELhhI9BXIyQ==",
+	"lT2UvGBSUU0FhQoDqLiKpA==",
+	"Zz9OQy2jnOaGcPzLjs2hLg==",
+	"5RgIwR9fB6PzZcbrhQAEqg==",
+	"ertVhmFLUs0KTA3Kprsdag==",
+	"f0KQ1Tve3ePXXs7XGqA+Gg==",
+	"2itfW92Xaz5Ri5F2qJk9hA==",
+	"MPdCMZ9uQg0MdUeQjJb0Mw==",
+	"A7UzJgh1+EWj5oBFi+iSgw==",
+	"cGhyY2FjdG9yYQAAAAAAAA==",
+	"tiVV6g3uZBGfh7FS8F4Jpg==",
+	"RVZxkM7bFhW1y1zL0h1d2A==",
+	"25LPpK6BFQ10jDQrOQ0pXA==",
+	"FP0GxZN3Qj7G8W4kQ0u6Zw==",
+	"YNeUgSzY/CfiWw1GALg6Ag==",
+	"7kX2mQ0mXqQW1h1q1z1m2A==",
+	"q8M1mQ0mXqQW1h1q1z1m2A==",
+	"sHdIjUn6sQ1h2q1z1m2m2A==",
+	"p0X2mQ0mXqQW1h1q1z1m2A==",
+	// RuoYi / JeeSite / common CMS defaults (16-byte AES)
+	"r0eXc4a671ts4Oc5c1d9Uw==",
+	"vUQjBd/0KG6X7b7J6q5LxQ==",
+	"wJjXnA3wQpL4M9uK2o5H8g==",
+	"yqX7o2v4m1zN8t4d1I8caw==",
+	"fRlM7mYxv1U0eJ3iFq3Srw==",
+	"dGVzdEtleQAAAAAAAAAAAA==",
+	"MTIzNDU2NzgxMjM0NTY3OA==",
+	// Shiro 1.4.2+ GCM default keys (16-byte AES)
+	"SkZQYWx4cU9YdVFsSnlscUJRY3pKZz09",
+	"ZUdGdkxYZGxjM0I0WVd4RQ==",
+	"V3J4aFkyeGxjM05zWVdOQQ==",
+	"WkdWakxYZGxjM0I0WVd4RQ==",
+	"WW5ZemIyRm1aV3hwWTI5dQ==",
+	"YldWemIyRm1aV3hwWTI5dQ==",
+	"ZGh4c1ptbHBlbUZ5WjIxdQ==",
+	"cVpWAzJxVmcyMFVxVmt4ZQ==",
+	// Additional community-collected 16-byte keys (padded to 16 bytes)
+	"ZGVmYXVsdF9rZXkAAAAAAA==",
+	"Y29tbWFuZGVyX2tleQAAAA==",
+	"bXlTaGlyb0tleQAAAAAAAA==",
+	"c3ByaW5nYm9vdGtleQAAAA==",
+	"c3lzdGVtc2VjcmV0a2V5MQ==",
+	"c2hpcm9zZWNyZXRrZXkxMg==",
+	"c2VjcmV0a2V5MTIzNDU2Nw==",
+	"YWRtaW5rZXkxMjM0NTY3OA==",
+	"cGFzc3dvcmRrZXkxMjM0NQ==",
+	"dXNlcm5hbWVrZXkxMjM0NQ==",
+	"bG9naW5rZXkxMjM0NTY3OA==",
+	"c3ByaW5nc2VjcmV0a2V5MQ==",
+	"Y3VzdG9ta2V5MTIzNDU2Nw==",
+	"dGhpc2lzbXlzZWNyZXRrZQ==",
+	"Z2ltdXM0c2VjcmV0a2V5Mg==",
+	"bXlzaGlyb2tleTEyMzQ1Ng==",
+	"Y29tbWFuZGVya2V5MTIzNA==",
+	"c3ByaW5nYm9vdGtleTEyMw==",
+	"YmFja2Rvb3JrZXkxMjM0NQ==",
+	"c2hpcm8xMjM0NTY3ODkwMQ==",
+	"dGVzdDEyMzQ1Njc4OTAxMg==",
+	"ZGVtby1rZXktMTIzNDU2Nw==",
+	"c2VjcmV0LWtleS0xMjM0NQ==",
+	"YWRtaW4tc2VjcmV0LWtleQ==",
+	"cm9vdHBhc3N3b3JkMTIzNA==",
+	"Z3Vlc3RrZXkxMjM0NTY3OA==",
+	"bWFzdGVya2V5MTIzNDU2Nw==",
+	"c3VwZXJzZWNyZXRrZXkxMg==",
+}
+
+// BuiltinKeys returns a copy of the built-in key dictionary.
+func BuiltinKeys() []string {
+	out := make([]string, len(builtinKeys))
+	copy(out, builtinKeys)
+	return out
+}

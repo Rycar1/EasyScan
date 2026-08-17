@@ -1,0 +1,543 @@
+rules:
+  - id: core-cn2-0001-ecology
+    name: Weaver e-cology
+    category: oa
+    vendor: Weaver
+    priority: 88
+    tags: [weaver, ecology, oa, java]
+    match:
+      strategy: any
+      probes:
+        - id: ecology-signals
+          matchers:
+            - type: cookie.contains
+              value: ecology_JSessionId
+              weight: 100
+              evidence: e-cology session cookie
+            - type: body.contains
+              value: "/wui/common/css/w7ovfont.css"
+              weight: 100
+              evidence: e-cology WUI font stylesheet
+            - type: body.contains
+              value: "/theme/ecology8/"
+              weight: 90
+              evidence: e-cology theme asset path
+            - type: body.contains
+              value: "weaver_lang"
+              weight: 80
+              evidence: e-cology language pack marker
+    metadata:
+      references: ["https://www.weaver.com.cn/", "https://github.com/0x727/FingerprintHub"]
+      confidence: high
+    examples:
+      positive:
+        - header: {Set-Cookie: "ecology_JSessionId=abc; path=/"}
+
+  - id: core-cn2-0002-eoffice
+    name: Weaver e-office
+    category: oa
+    vendor: Weaver
+    priority: 85
+    tags: [weaver, eoffice, oa, php]
+    match:
+      strategy: any
+      probes:
+        - id: eoffice-signals
+          matchers:
+            - type: body.contains
+              value: "/general/login/view/images/updateload.gif"
+              weight: 100
+              evidence: e-office login asset path
+            - type: body.contains
+              value: "iSignaturePortal"
+              weight: 90
+              evidence: e-office signature portal marker
+    metadata:
+      references: ["https://www.weaver.com.cn/", "https://github.com/0x727/FingerprintHub"]
+      confidence: medium
+    examples:
+      positive:
+        - body: '<img src="/general/login/view/images/updateload.gif">'
+
+  - id: core-cn2-0003-emobile
+    name: Weaver e-mobile
+    category: oa
+    vendor: Weaver
+    priority: 85
+    tags: [weaver, emobile, oa]
+    match:
+      strategy: any
+      probes:
+        - id: emobile-signals
+          matchers:
+            - type: body.regex
+              value: 'content="[Ww]eaver [Ee]-mobile"'
+              weight: 100
+              evidence: e-mobile generator meta tag
+            - type: body.contains
+              value: 'window.apiprifix = "/emp"'
+              weight: 90
+              evidence: e-mobile api prefix marker
+    metadata:
+      references: ["https://www.weaver.com.cn/", "https://github.com/0x727/FingerprintHub"]
+      confidence: medium
+    examples:
+      positive:
+        - body: '<meta name="description" content="Weaver E-mobile">'
+
+  - id: core-cn2-0004-landray
+    name: Landray OA
+    category: oa
+    vendor: Landray
+    priority: 85
+    tags: [landray, oa, java]
+    match:
+      strategy: any
+      probes:
+        - id: landray-signals
+          matchers:
+            - type: body.contains
+              value: "/scripts/jquery.landray.common.js"
+              weight: 100
+              evidence: Landray common script path
+            - type: body.contains
+              value: "lui_login_message_td"
+              weight: 90
+              evidence: Landray login message element
+            - type: body.contains
+              value: "蓝凌软件"
+              weight: 90
+              evidence: Landray vendor brand
+    metadata:
+      references: ["https://www.landray.com.cn/", "https://github.com/0x727/FingerprintHub"]
+      confidence: high
+    examples:
+      positive:
+        - body: '<script src="/scripts/jquery.landray.common.js"></script>'
+
+  - id: core-cn2-0005-yonyou-nc
+    name: Yonyou NC
+    category: erp
+    vendor: Yonyou
+    priority: 85
+    tags: [yonyou, erp, nc, java]
+    match:
+      strategy: any
+      probes:
+        - id: yonyou-nc-signals
+          matchers:
+            - type: body.contains
+              value: "/nc/servlet/nc.ui.iufo.login.index"
+              weight: 100
+              evidence: Yonyou NC login servlet path
+            - type: body.contains
+              value: "url=nccloud"
+              weight: 90
+              evidence: Yonyou NC Cloud redirect
+            - type: body.contains
+              value: "ufida_nc.png"
+              weight: 90
+              evidence: Yonyou NC logo asset
+    metadata:
+      references: ["https://www.yonyou.com/", "https://github.com/0x727/FingerprintHub"]
+      confidence: high
+    examples:
+      positive:
+        - body: '<a href="/nc/servlet/nc.ui.iufo.login.index">login</a>'
+
+  - id: core-cn2-0006-yonyou-u8
+    name: Yonyou U8/GRP-U8
+    category: erp
+    vendor: Yonyou
+    priority: 85
+    tags: [yonyou, erp, u8]
+    match:
+      strategy: any
+      probes:
+        - id: yonyou-u8-signals
+          matchers:
+            - type: body.contains
+              value: "用友GRP-U8"
+              weight: 100
+              evidence: Yonyou GRP-U8 brand
+            - type: body.contains
+              value: "开启U8 Cloud云端之旅"
+              weight: 100
+              evidence: Yonyou U8 Cloud welcome text
+            - type: body.contains
+              value: "GetFirstU8AccID"
+              weight: 90
+              evidence: Yonyou U8 account function
+    metadata:
+      references: ["https://www.yonyou.com/", "https://github.com/0x727/FingerprintHub"]
+      confidence: high
+    examples:
+      positive:
+        - body: '<title>用友GRP-U8</title>'
+
+  - id: core-cn2-0007-kingdee
+    name: Kingdee
+    category: erp
+    vendor: Kingdee
+    priority: 85
+    tags: [kingdee, erp]
+    match:
+      strategy: any
+      probes:
+        - id: kingdee-signals
+          matchers:
+            - type: body.contains
+              value: "金蝶国际软件集团有限公司版权所有"
+              weight: 100
+              evidence: Kingdee copyright text
+            - type: body.contains
+              value: "logo-kingdee.png"
+              weight: 90
+              evidence: Kingdee logo asset
+            - type: body.contains
+              value: "Kingdee.BOS.XPF.App.xap"
+              weight: 100
+              evidence: Kingdee Cloud Galaxy Silverlight app
+            - type: cookie.contains
+              value: EASSESSIONID
+              weight: 70
+              evidence: Kingdee EAS session cookie
+    metadata:
+      references: ["https://www.kingdee.com/", "https://github.com/0x727/FingerprintHub"]
+      confidence: high
+    examples:
+      positive:
+        - body: '金蝶国际软件集团有限公司版权所有'
+
+  - id: core-cn2-0008-finereport
+    name: FineReport
+    category: bi
+    vendor: FanRuan
+    priority: 85
+    tags: [finereport, bi, report, java]
+    match:
+      strategy: any
+      probes:
+        - id: finereport-signals
+          matchers:
+            - type: body.regex
+              value: 'content="FineReport'
+              weight: 100
+              evidence: FineReport generator meta tag
+            - type: body.contains
+              value: "/ReportServer"
+              weight: 80
+              evidence: FineReport report server path
+            - type: body.contains
+              value: "/decision/login"
+              weight: 80
+              evidence: FineReport decision platform login
+    metadata:
+      references: ["https://www.finereport.com/", "https://github.com/0x727/FingerprintHub"]
+      confidence: high
+    examples:
+      positive:
+        - body: '<meta name="generator" content="FineReport--web reporting tool">'
+
+  - id: core-cn2-0009-jeecgboot
+    name: JeecgBoot
+    category: framework
+    vendor: Jeecg
+    priority: 82
+    tags: [jeecg, jeecgboot, java, framework]
+    match:
+      strategy: any
+      probes:
+        - id: jeecgboot-signals
+          matchers:
+            - type: body.contains
+              value: "JeecgBoot"
+              weight: 100
+              evidence: JeecgBoot brand marker
+            - type: body.contains
+              value: "fileview.jeecg.com"
+              weight: 90
+              evidence: JeecgBoot file preview domain
+            - type: body.contains
+              value: "plug-in/ace/"
+              weight: 60
+              evidence: Jeecg ace plugin path
+    metadata:
+      references: ["https://www.jeecg.com/", "https://github.com/0x727/FingerprintHub"]
+      confidence: medium
+    examples:
+      positive:
+        - body: '<div>JeecgBoot 企业级低代码平台</div>'
+
+  - id: core-cn2-0010-coremail
+    name: Coremail
+    category: mail
+    vendor: Coremail
+    priority: 85
+    tags: [coremail, mail]
+    match:
+      strategy: any
+      probes:
+        - id: coremail-signals
+          matchers:
+            - type: body.contains
+              value: "/coremail/common/"
+              weight: 100
+              evidence: Coremail common asset path
+            - type: body.contains
+              value: "coremail 电子邮件系统"
+              weight: 100
+              evidence: Coremail product string
+            - type: body.contains
+              value: 'action="/coremail/index.jsp'
+              weight: 90
+              evidence: Coremail login form action
+    metadata:
+      references: ["https://www.coremail.cn/", "https://github.com/0x727/FingerprintHub"]
+      confidence: high
+    examples:
+      positive:
+        - body: '<link href="/coremail/common/style.css">'
+
+  - id: core-cn2-0011-metinfo
+    name: MetInfo
+    category: cms
+    vendor: MetInfo
+    priority: 82
+    tags: [metinfo, cms, php]
+    match:
+      strategy: any
+      probes:
+        - id: metinfo-signals
+          matchers:
+            - type: body.regex
+              value: 'content="MetInfo'
+              weight: 100
+              evidence: MetInfo generator meta tag
+            - type: body.contains
+              value: "powered_by_metinfo"
+              weight: 100
+              evidence: MetInfo powered-by element
+    metadata:
+      references: ["https://www.metinfo.cn/", "https://github.com/0x727/FingerprintHub"]
+      confidence: high
+    examples:
+      positive:
+        - body: '<meta name="generator" content="MetInfo 7.0">'
+
+  - id: core-cn2-0012-maccms
+    name: MacCMS
+    category: cms
+    vendor: MacCMS
+    priority: 80
+    tags: [maccms, cms, php]
+    match:
+      strategy: any
+      probes:
+        - id: maccms-signals
+          matchers:
+            - type: body.contains
+              value: 'var maccms={"path'
+              weight: 100
+              evidence: MacCMS runtime config object
+    metadata:
+      references: ["https://github.com/0x727/FingerprintHub"]
+      confidence: medium
+    examples:
+      positive:
+        - body: '<script>var maccms={"path":"/"}</script>'
+
+  - id: core-cn2-0013-sangfor
+    name: Sangfor Device
+    category: security-device
+    vendor: Sangfor
+    priority: 85
+    tags: [sangfor, firewall, vpn, security]
+    match:
+      strategy: any
+      probes:
+        - id: sangfor-signals
+          matchers:
+            - type: cookie.contains
+              value: sangfor_session_hash
+              weight: 100
+              evidence: Sangfor session cookie
+            - type: body.contains
+              value: "/por/login_psw.csp"
+              weight: 100
+              evidence: Sangfor SSL VPN login endpoint
+            - type: body.contains
+              value: "sec.sangfor.com.cn"
+              weight: 90
+              evidence: Sangfor vendor domain reference
+            - type: title.contains
+              value: aTrust
+              weight: 80
+              evidence: Sangfor aTrust zero-trust gateway
+    metadata:
+      references: ["https://www.sangfor.com.cn/", "https://github.com/0x727/FingerprintHub"]
+      confidence: high
+    examples:
+      positive:
+        - body: '<a href="/por/login_psw.csp">login</a>'
+
+  - id: core-cn2-0014-ruijie
+    name: Ruijie Device
+    category: security-device
+    vendor: Ruijie
+    priority: 82
+    tags: [ruijie, network-device, router, firewall]
+    match:
+      strategy: any
+      probes:
+        - id: ruijie-signals
+          matchers:
+            - type: header.regex
+              key: Server
+              value: (?i)rgos http-server
+              weight: 100
+              evidence: Ruijie RGOS server banner
+            - type: body.contains
+              value: "/wnm/ssl/web/frame/login.html"
+              weight: 100
+              evidence: Ruijie web management login path
+            - type: body.contains
+              value: "锐捷网络"
+              weight: 70
+              evidence: Ruijie vendor brand
+            - type: cookie.contains
+              value: rjsslvpn_encookie
+              weight: 90
+              evidence: Ruijie SSL VPN cookie
+    metadata:
+      references: ["https://www.ruijie.com.cn/", "https://github.com/0x727/FingerprintHub"]
+      confidence: high
+    examples:
+      positive:
+        - header: {Server: "RGOS Http-Server"}
+
+  - id: core-cn2-0015-h3c
+    name: H3C Device
+    category: security-device
+    vendor: H3C
+    priority: 82
+    tags: [h3c, network-device, router, firewall]
+    match:
+      strategy: any
+      probes:
+        - id: h3c-signals
+          matchers:
+            - type: body.contains
+              value: "/imc/login.jsf"
+              weight: 100
+              evidence: H3C IMC login path
+            - type: body.contains
+              value: "login_logo_h3c.png"
+              weight: 100
+              evidence: H3C login logo asset
+            - type: body.contains
+              value: "H3C SecPath Series"
+              weight: 90
+              evidence: H3C SecPath firewall banner
+            - type: body.contains
+              value: "/wnm/ssl/web/frame/login.html"
+              weight: 60
+              evidence: H3C web management login path
+    metadata:
+      references: ["https://www.h3c.com/", "https://github.com/0x727/FingerprintHub"]
+      confidence: high
+    examples:
+      positive:
+        - body: '<img src="login_logo_h3c.png.jsf">'
+
+  - id: core-cn2-0016-hikvision
+    name: Hikvision Device
+    category: security-device
+    vendor: Hikvision
+    priority: 82
+    tags: [hikvision, camera, nvr, security]
+    match:
+      strategy: any
+      probes:
+        - id: hikvision-signals
+          matchers:
+            - type: header.regex
+              key: Server
+              value: (?i)face-webs
+              weight: 90
+              evidence: Hikvision face-webs server banner
+            - type: body.contains
+              value: "杭州海康威视"
+              weight: 90
+              evidence: Hikvision vendor brand
+            - type: body.contains
+              value: "/portal/common/js/commonvar.js"
+              weight: 90
+              evidence: Hikvision iVMS portal script
+            - type: body.contains
+              value: "安防综合管理平台"
+              weight: 80
+              evidence: Hikvision iVMS platform title
+    metadata:
+      references: ["https://www.hikvision.com/", "https://github.com/0x727/FingerprintHub"]
+      confidence: medium
+    examples:
+      positive:
+        - body: '<div>杭州海康威视系统技术有限公司 版权所有</div>'
+
+  - id: core-cn2-0017-topsec
+    name: Topsec Device
+    category: security-device
+    vendor: Topsec
+    priority: 80
+    tags: [topsec, firewall, vpn, security]
+    match:
+      strategy: any
+      probes:
+        - id: topsec-signals
+          matchers:
+            - type: header.regex
+              key: Server
+              value: (?i)topwebserver
+              weight: 100
+              evidence: Topsec TopWebServer banner
+            - type: cookie.contains
+              value: TOPSECSVUILANGUAGE
+              weight: 90
+              evidence: Topsec UI language cookie
+    metadata:
+      references: ["https://www.topsec.com.cn/", "https://github.com/0x727/FingerprintHub"]
+      confidence: medium
+    examples:
+      positive:
+        - header: {Server: "TopWebServer"}
+
+  - id: core-cn2-0018-panabit
+    name: Panabit
+    category: security-device
+    vendor: Panabit
+    priority: 80
+    tags: [panabit, gateway, security]
+    match:
+      strategy: any
+      probes:
+        - id: panabit-signals
+          matchers:
+            - type: body.contains
+              value: "forum.panabit.com"
+              weight: 100
+              evidence: Panabit forum reference
+            - type: title.contains
+              value: iXCache
+              weight: 90
+              evidence: Panabit iXCache title
+            - type: body.contains
+              value: "Panalog"
+              weight: 80
+              evidence: Panabit Panalog log system
+    metadata:
+      references: ["https://www.panabit.com/", "https://github.com/0x727/FingerprintHub"]
+      confidence: medium
+    examples:
+      positive:
+        - body: '<a href="http://forum.panabit.com">bbs</a>'

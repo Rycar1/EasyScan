@@ -1,0 +1,637 @@
+rules:
+  - id: core-app-0001-discuz
+    name: Discuz!
+    category: cms
+    vendor: Comsenz
+    priority: 85
+    tags: [discuz, forum, php]
+    match:
+      strategy: any
+      probes:
+        - id: discuz-signals
+          matchers:
+            - type: body.regex
+              value: 'content="Discuz'
+              weight: 100
+              evidence: Discuz generator meta tag
+            - type: body.contains
+              value: "www.discuz.net"
+              weight: 90
+              evidence: Discuz official site reference
+            - type: body.contains
+              value: "discuz_uid"
+              weight: 90
+              evidence: Discuz runtime uid variable
+            - type: body.contains
+              value: 'id="discuz_tips'
+              weight: 80
+              evidence: Discuz tips element marker
+    metadata:
+      references: ["https://www.discuz.net/", "https://github.com/0x727/FingerprintHub"]
+      confidence: high
+    examples:
+      positive:
+        - body: '<meta name="generator" content="Discuz! X3.4" />'
+
+  - id: core-app-0002-zabbix
+    name: Zabbix
+    category: observability
+    vendor: Zabbix SIA
+    priority: 85
+    tags: [zabbix, monitoring, observability]
+    match:
+      strategy: any
+      probes:
+        - id: zabbix-signals
+          matchers:
+            - type: body.contains
+              value: "images/general/zabbix.ico"
+              weight: 100
+              evidence: Zabbix favicon reference
+            - type: body.contains
+              value: "Zabbix SIA"
+              weight: 100
+              evidence: Zabbix copyright marker
+            - type: title.contains
+              value: Zabbix
+              weight: 80
+              evidence: Zabbix page title
+    metadata:
+      references: ["https://www.zabbix.com/", "https://github.com/0x727/FingerprintHub"]
+      confidence: high
+    examples:
+      positive:
+        - body: '<link rel="icon" href="images/general/zabbix.ico">'
+
+  - id: core-app-0003-kibana
+    name: Kibana
+    category: observability
+    vendor: Elastic
+    priority: 85
+    tags: [kibana, elastic, observability]
+    match:
+      strategy: any
+      probes:
+        - id: kibana-signals
+          matchers:
+            - type: header.contains
+              key: kbn-name
+              value: kibana
+              weight: 100
+              evidence: Kibana kbn-name response header
+            - type: header.contains
+              key: kbn-version
+              weight: 90
+              evidence: Kibana kbn-version response header
+            - type: title.contains
+              value: Kibana
+              weight: 70
+              evidence: Kibana page title
+    metadata:
+      references: ["https://www.elastic.co/kibana", "https://github.com/0x727/FingerprintHub"]
+      confidence: high
+    examples:
+      positive:
+        - header: {kbn-name: "kibana"}
+
+  - id: core-app-0004-elasticsearch
+    name: Elasticsearch
+    category: middleware
+    vendor: Elastic
+    priority: 85
+    tags: [elasticsearch, search, middleware]
+    match:
+      strategy: any
+      probes:
+        - id: elasticsearch-signals
+          matchers:
+            - type: body.contains
+              value: '"You Know, for Search"'
+              weight: 100
+              evidence: Elasticsearch tagline
+            - type: body.contains
+              value: '"cluster_name"'
+              weight: 60
+              evidence: Elasticsearch cluster info key
+            - type: body.contains
+              value: '"lucene_version"'
+              weight: 70
+              evidence: Elasticsearch lucene version key
+    metadata:
+      references: ["https://www.elastic.co/elasticsearch", "https://github.com/0x727/FingerprintHub"]
+      confidence: high
+    examples:
+      positive:
+        - body: '"tagline" : "You Know, for Search"'
+
+  - id: core-app-0005-harbor
+    name: Harbor
+    category: devops
+    vendor: VMware
+    priority: 85
+    tags: [harbor, registry, devops]
+    match:
+      strategy: any
+      probes:
+        - id: harbor-signals
+          matchers:
+            - type: title.contains
+              value: Harbor
+              weight: 80
+              evidence: Harbor page title
+            - type: body.contains
+              value: "harbor-container"
+              weight: 90
+              evidence: Harbor UI container marker
+            - type: header.contains
+              key: Set-Cookie
+              value: sid=
+              weight: 40
+              evidence: Harbor session cookie
+    metadata:
+      references: ["https://goharbor.io/", "https://github.com/0x727/FingerprintHub"]
+      confidence: medium
+    examples:
+      positive:
+        - body: '<title>Harbor</title>'
+
+  - id: core-app-0006-phpmyadmin
+    name: phpMyAdmin
+    category: database-tool
+    vendor: phpMyAdmin
+    priority: 85
+    tags: [phpmyadmin, database, php]
+    match:
+      strategy: any
+      probes:
+        - id: phpmyadmin-signals
+          matchers:
+            - type: cookie.contains
+              value: phpMyAdmin=
+              weight: 100
+              evidence: phpMyAdmin session cookie
+            - type: cookie.contains
+              value: pma_lang=
+              weight: 90
+              evidence: phpMyAdmin language cookie
+            - type: body.contains
+              value: "phpmyadmin.css.php"
+              weight: 100
+              evidence: phpMyAdmin stylesheet endpoint
+            - type: body.contains
+              value: "pma_password"
+              weight: 80
+              evidence: phpMyAdmin login field
+    metadata:
+      references: ["https://www.phpmyadmin.net/", "https://github.com/0x727/FingerprintHub"]
+      confidence: high
+    examples:
+      positive:
+        - header: {Set-Cookie: "phpMyAdmin=abc; path=/"}
+
+  - id: core-app-0007-weblogic
+    name: Oracle WebLogic
+    category: middleware
+    vendor: Oracle
+    priority: 85
+    tags: [weblogic, java, middleware]
+    match:
+      strategy: any
+      probes:
+        - id: weblogic-signals
+          matchers:
+            - type: body.contains
+              value: "Welcome to Weblogic Application Server"
+              weight: 100
+              evidence: WebLogic welcome banner
+            - type: body.contains
+              value: "Oracle WebLogic Server"
+              weight: 100
+              evidence: WebLogic product string
+            - type: body.contains
+              value: "/console/framework/skins/wlsconsole/"
+              weight: 100
+              evidence: WebLogic console asset path
+    metadata:
+      references: ["https://www.oracle.com/java/weblogic/", "https://github.com/0x727/FingerprintHub"]
+      confidence: high
+    examples:
+      positive:
+        - body: 'Welcome to Weblogic Application Server'
+
+  - id: core-app-0008-jboss
+    name: JBoss
+    category: middleware
+    vendor: Red Hat
+    priority: 82
+    tags: [jboss, java, middleware]
+    match:
+      strategy: any
+      probes:
+        - id: jboss-signals
+          matchers:
+            - type: header.contains
+              key: X-Powered-By
+              value: JBoss
+              weight: 100
+              evidence: X-Powered-By reports JBoss
+            - type: body.contains
+              value: "your JBoss Enterprise Application Platform is running"
+              weight: 100
+              evidence: JBoss EAP running page
+            - type: body.contains
+              value: 'href="http://jboss.org"'
+              weight: 80
+              evidence: JBoss project link
+    metadata:
+      references: ["https://www.jboss.org/", "https://github.com/0x727/FingerprintHub"]
+      confidence: medium
+    examples:
+      positive:
+        - header: {X-Powered-By: "JBoss-6.1"}
+
+  - id: core-app-0009-confluence
+    name: Atlassian Confluence
+    category: collaboration
+    vendor: Atlassian
+    priority: 85
+    tags: [confluence, wiki, atlassian]
+    match:
+      strategy: any
+      probes:
+        - id: confluence-signals
+          matchers:
+            - type: header.contains
+              key: X-Confluence-Request-Time
+              weight: 100
+              evidence: X-Confluence-Request-Time response header
+            - type: body.contains
+              value: 'name="confluence-base-url"'
+              weight: 100
+              evidence: Confluence base-url meta tag
+            - type: body.contains
+              value: "com.atlassian.confluence"
+              weight: 90
+              evidence: Confluence webresource marker
+    metadata:
+      references: ["https://www.atlassian.com/software/confluence", "https://github.com/0x727/FingerprintHub"]
+      confidence: high
+    examples:
+      positive:
+        - header: {X-Confluence-Request-Time: "1700000000000"}
+
+  - id: core-app-0010-jira
+    name: Atlassian Jira
+    category: collaboration
+    vendor: Atlassian
+    priority: 85
+    tags: [jira, issue-tracker, atlassian]
+    match:
+      strategy: any
+      probes:
+        - id: jira-signals
+          matchers:
+            - type: body.contains
+              value: "com.atlassian.jira"
+              weight: 100
+              evidence: Jira webresource marker
+            - type: body.contains
+              value: "jira.webresources"
+              weight: 100
+              evidence: Jira web resources marker
+            - type: header.contains
+              key: X-AREQUESTID
+              weight: 70
+              evidence: Jira request-id header
+    metadata:
+      references: ["https://www.atlassian.com/software/jira", "https://github.com/0x727/FingerprintHub"]
+      confidence: high
+    examples:
+      positive:
+        - body: '<script>com.atlassian.jira</script>'
+
+  - id: core-app-0011-django
+    name: Django
+    category: framework
+    vendor: Django
+    priority: 80
+    tags: [django, python, framework]
+    match:
+      strategy: any
+      probes:
+        - id: django-signals
+          matchers:
+            - type: body.contains
+              value: "csrfmiddlewaretoken"
+              weight: 80
+              evidence: Django CSRF form token
+            - type: body.contains
+              value: "__admin_media_prefix__"
+              weight: 100
+              evidence: Django admin media prefix
+            - type: body.contains
+              value: "That's the Django settings file"
+              weight: 100
+              evidence: Django default error hint
+    metadata:
+      references: ["https://www.djangoproject.com/", "https://github.com/0x727/FingerprintHub"]
+      confidence: medium
+    examples:
+      positive:
+        - body: '<input type="hidden" name="csrfmiddlewaretoken" value="x">'
+
+  - id: core-app-0012-laravel
+    name: Laravel
+    category: framework
+    vendor: Laravel
+    priority: 80
+    tags: [laravel, php, framework]
+    match:
+      strategy: any
+      probes:
+        - id: laravel-signals
+          matchers:
+            - type: cookie.contains
+              value: laravel_session=
+              weight: 100
+              evidence: Laravel session cookie
+            - type: cookie.contains
+              value: XSRF-TOKEN=
+              weight: 60
+              evidence: Laravel XSRF cookie
+    metadata:
+      references: ["https://laravel.com/", "https://github.com/0x727/FingerprintHub"]
+      confidence: medium
+    examples:
+      positive:
+        - header: {Set-Cookie: "laravel_session=eyJ; path=/"}
+
+  - id: core-app-0013-swagger
+    name: Swagger UI
+    category: api-doc
+    vendor: SmartBear
+    priority: 75
+    tags: [swagger, api, openapi]
+    match:
+      strategy: any
+      probes:
+        - id: swagger-signals
+          matchers:
+            - type: body.contains
+              value: "swagger-ui.css"
+              weight: 90
+              evidence: Swagger UI stylesheet
+            - type: body.contains
+              value: "swagger-ui-bundle.js"
+              weight: 90
+              evidence: Swagger UI bundle script
+            - type: title.contains
+              value: Swagger UI
+              weight: 80
+              evidence: Swagger UI page title
+    metadata:
+      references: ["https://swagger.io/tools/swagger-ui/", "https://github.com/0x727/FingerprintHub"]
+      confidence: medium
+    examples:
+      positive:
+        - body: '<link rel="stylesheet" href="./swagger-ui.css">'
+
+  - id: core-app-0014-minio
+    name: MinIO
+    category: storage
+    vendor: MinIO
+    priority: 82
+    tags: [minio, object-storage, storage]
+    match:
+      strategy: any
+      probes:
+        - id: minio-signals
+          matchers:
+            - type: title.contains
+              value: MinIO Console
+              weight: 100
+              evidence: MinIO console title
+            - type: title.contains
+              value: MinIO Browser
+              weight: 100
+              evidence: MinIO browser title
+            - type: body.contains
+              value: "/minio/loader.css"
+              weight: 90
+              evidence: MinIO loader stylesheet
+            - type: header.regex
+              key: Server
+              value: (?i)minio
+              weight: 100
+              evidence: MinIO server banner
+    metadata:
+      references: ["https://min.io/", "https://github.com/0x727/FingerprintHub"]
+      confidence: high
+    examples:
+      positive:
+        - body: '<title>MinIO Console</title>'
+
+  - id: core-app-0015-rabbitmq
+    name: RabbitMQ Management
+    category: middleware
+    vendor: VMware
+    priority: 82
+    tags: [rabbitmq, mq, middleware]
+    match:
+      strategy: any
+      probes:
+        - id: rabbitmq-signals
+          matchers:
+            - type: title.contains
+              value: RabbitMQ Management
+              weight: 100
+              evidence: RabbitMQ management console title
+            - type: header.regex
+              key: Server
+              value: (?i)(cowboy|rabbitmq)
+              weight: 60
+              evidence: RabbitMQ management server banner
+    metadata:
+      references: ["https://www.rabbitmq.com/", "https://github.com/0x727/FingerprintHub"]
+      confidence: medium
+    examples:
+      positive:
+        - body: '<title>RabbitMQ Management</title>'
+
+  - id: core-app-0016-consul
+    name: Consul
+    category: middleware
+    vendor: HashiCorp
+    priority: 80
+    tags: [consul, service-discovery, middleware]
+    match:
+      strategy: any
+      probes:
+        - id: consul-signals
+          matchers:
+            - type: body.contains
+              value: "consul-ui/config/environment"
+              weight: 100
+              evidence: Consul UI environment config
+            - type: body.contains
+              value: "www.consul.io"
+              weight: 80
+              evidence: Consul official site reference
+    metadata:
+      references: ["https://www.consul.io/", "https://github.com/0x727/FingerprintHub"]
+      confidence: medium
+    examples:
+      positive:
+        - body: '<meta name="consul-ui/config/environment" content="x">'
+
+  - id: core-app-0017-gitea
+    name: Gitea
+    category: devops
+    vendor: Gitea
+    priority: 82
+    tags: [gitea, scm, devops]
+    match:
+      strategy: any
+      probes:
+        - id: gitea-signals
+          matchers:
+            - type: cookie.contains
+              value: i_like_gitea=
+              weight: 100
+              evidence: Gitea session cookie
+            - type: body.regex
+              value: 'content="Gitea'
+              weight: 100
+              evidence: Gitea description meta tag
+    metadata:
+      references: ["https://gitea.io/", "https://github.com/0x727/FingerprintHub"]
+      confidence: high
+    examples:
+      positive:
+        - header: {Set-Cookie: "i_like_gitea=abc; Path=/"}
+
+  - id: core-app-0018-gogs
+    name: Gogs
+    category: devops
+    vendor: Gogs
+    priority: 80
+    tags: [gogs, scm, devops]
+    match:
+      strategy: any
+      probes:
+        - id: gogs-signals
+          matchers:
+            - type: body.regex
+              value: 'content="Gogs'
+              weight: 100
+              evidence: Gogs description meta tag
+            - type: body.contains
+              value: "https://gogs.io/docs"
+              weight: 90
+              evidence: Gogs docs link
+    metadata:
+      references: ["https://gogs.io/", "https://github.com/0x727/FingerprintHub"]
+      confidence: medium
+    examples:
+      positive:
+        - body: '<meta name="description" content="Gogs is a painless self-hosted Git service">'
+
+  - id: core-app-0019-xxljob
+    name: XXL-JOB
+    category: middleware
+    vendor: XXL-JOB
+    priority: 82
+    tags: [xxl-job, scheduler, java]
+    match:
+      strategy: any
+      probes:
+        - id: xxljob-signals
+          matchers:
+            - type: body.contains
+              value: "分布式任务调度平台XXL-JOB"
+              weight: 100
+              evidence: XXL-JOB console title
+            - type: body.contains
+              value: "/xxl-job-admin/"
+              weight: 90
+              evidence: XXL-JOB admin path
+    metadata:
+      references: ["https://www.xuxueli.com/xxl-job/", "https://github.com/0x727/FingerprintHub"]
+      confidence: high
+    examples:
+      positive:
+        - body: '<title>分布式任务调度平台XXL-JOB</title>'
+
+  - id: core-app-0020-druid
+    name: Apache Druid
+    category: middleware
+    vendor: Apache
+    priority: 80
+    tags: [druid, olap, middleware]
+    match:
+      strategy: any
+      probes:
+        - id: druid-signals
+          matchers:
+            - type: body.contains
+              value: "Apache Druid console"
+              weight: 100
+              evidence: Apache Druid console marker
+    metadata:
+      references: ["https://druid.apache.org/", "https://github.com/0x727/FingerprintHub"]
+      confidence: medium
+    examples:
+      positive:
+        - body: '<title>Apache Druid console</title>'
+
+  - id: core-app-0021-apollo
+    name: Apollo Config
+    category: middleware
+    vendor: Ctrip
+    priority: 80
+    tags: [apollo, config, java]
+    match:
+      strategy: any
+      probes:
+        - id: apollo-signals
+          matchers:
+            - type: body.contains
+              value: "apollo-adminservice"
+              weight: 100
+              evidence: Apollo admin service marker
+            - type: body.contains
+              value: "Apollo Configuration Center"
+              weight: 100
+              evidence: Apollo config center title
+    metadata:
+      references: ["https://www.apolloconfig.com/", "https://github.com/0x727/FingerprintHub"]
+      confidence: medium
+    examples:
+      positive:
+        - body: '<title>Apollo Configuration Center</title>'
+
+  - id: core-app-0022-spring-boot-admin
+    name: Spring Boot Admin
+    category: observability
+    vendor: codecentric
+    priority: 80
+    tags: [spring, admin, observability]
+    match:
+      strategy: any
+      probes:
+        - id: sba-signals
+          matchers:
+            - type: body.contains
+              value: "assets/img/icon-spring-boot-admin.svg"
+              weight: 100
+              evidence: Spring Boot Admin icon asset
+            - type: title.contains
+              value: Spring Boot Admin
+              weight: 90
+              evidence: Spring Boot Admin title
+    metadata:
+      references: ["https://github.com/codecentric/spring-boot-admin", "https://github.com/0x727/FingerprintHub"]
+      confidence: medium
+    examples:
+      positive:
+        - body: '<img src="assets/img/icon-spring-boot-admin.svg">'

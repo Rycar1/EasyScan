@@ -1,0 +1,6 @@
+bin/
+reports/
+data/
+*.exe
+*.pem
+*.key

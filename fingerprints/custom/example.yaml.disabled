@@ -1,0 +1,26 @@
+﻿id: custom-example-product
+name: Example Product
+category: cms
+match:
+  strategy: score
+  threshold: 80
+  matchers:
+    - type: header.contains
+      key: X-Example-Product
+      value: example-product
+      case_sensitive: false
+      weight: 50
+      evidence: Product-specific response header
+    - type: body.contains
+      value: /static/example-product/
+      case_sensitive: false
+      weight: 40
+      evidence: Product-specific static asset path
+negative:
+  - type: body.contains
+    value: Example Product documentation
+    reason: Exclude documentation pages
+metadata:
+  references:
+    - https://example.test/product
+  confidence: high

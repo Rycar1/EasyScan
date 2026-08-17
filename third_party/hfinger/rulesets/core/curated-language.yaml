@@ -1,0 +1,156 @@
+rules:
+  - id: core-lang-0001-php
+    name: PHP
+    category: language
+    priority: 60
+    tags: [language, php]
+    match:
+      strategy: any
+      probes:
+        - id: php-signals
+          matchers:
+            - type: cookie.contains
+              value: PHPSESSID=
+              weight: 100
+              evidence: PHP session cookie PHPSESSID
+            - type: header.regex
+              key: X-Powered-By
+              value: (?i)php
+              weight: 100
+              evidence: X-Powered-By reports PHP
+    metadata:
+      references: ["https://www.php.net/manual/en/session.configuration.php"]
+      confidence: high
+    examples:
+      positive:
+        - header: {Set-Cookie: "PHPSESSID=abc123; path=/"}
+        - header: {X-Powered-By: "PHP/8.2.10"}
+
+  - id: core-lang-0002-java
+    name: Java
+    category: language
+    priority: 60
+    tags: [language, java]
+    match:
+      strategy: any
+      probes:
+        - id: java-signals
+          matchers:
+            - type: cookie.contains
+              value: JSESSIONID=
+              weight: 100
+              evidence: Java servlet session cookie JSESSIONID
+    metadata:
+      references: ["https://jakarta.ee/specifications/servlet/"]
+      confidence: high
+    examples:
+      positive:
+        - header: {Set-Cookie: "JSESSIONID=9A1B2C3D; Path=/; HttpOnly"}
+
+  - id: core-lang-0003-aspnet
+    name: ASP.NET
+    category: language
+    vendor: Microsoft
+    priority: 60
+    tags: [language, dotnet, aspnet]
+    match:
+      strategy: any
+      probes:
+        - id: aspnet-signals
+          matchers:
+            - type: cookie.contains
+              value: ASP.NET_SessionId=
+              weight: 100
+              evidence: ASP.NET session cookie ASP.NET_SessionId
+            - type: header.contains
+              key: X-AspNet-Version
+              weight: 100
+              evidence: X-AspNet-Version header present
+            - type: header.regex
+              key: X-Powered-By
+              value: (?i)asp\.net
+              weight: 100
+              evidence: X-Powered-By reports ASP.NET
+    metadata:
+      references: ["https://learn.microsoft.com/en-us/aspnet/overview"]
+      confidence: high
+    examples:
+      positive:
+        - header: {Set-Cookie: "ASP.NET_SessionId=lk3n2; path=/; HttpOnly"}
+        - header: {X-AspNet-Version: "4.0.30319"}
+
+  - id: core-lang-0004-python
+    name: Python
+    category: language
+    priority: 55
+    tags: [language, python]
+    match:
+      strategy: any
+      probes:
+        - id: python-signals
+          matchers:
+            - type: header.regex
+              key: Server
+              value: (?i)(gunicorn|werkzeug|python|uvicorn|waitress|tornado)
+              weight: 100
+              evidence: Server banner reports a Python runtime or WSGI server
+    metadata:
+      references: ["https://wsgi.readthedocs.io/"]
+      confidence: medium
+    examples:
+      positive:
+        - header: {Server: "gunicorn/21.2.0"}
+        - header: {Server: "Werkzeug/2.3.7 Python/3.11"}
+
+  - id: core-lang-0005-nodejs
+    name: Node.js
+    category: language
+    priority: 55
+    tags: [language, nodejs, javascript]
+    match:
+      strategy: any
+      probes:
+        - id: nodejs-signals
+          matchers:
+            - type: header.regex
+              key: X-Powered-By
+              value: (?i)express
+              weight: 100
+              evidence: X-Powered-By reports Express (Node.js)
+            - type: cookie.contains
+              value: connect.sid=
+              weight: 100
+              evidence: Express connect.sid session cookie
+    metadata:
+      references: ["https://expressjs.com/"]
+      confidence: medium
+    examples:
+      positive:
+        - header: {X-Powered-By: "Express"}
+        - header: {Set-Cookie: "connect.sid=s%3Aabc; Path=/; HttpOnly"}
+
+  - id: core-lang-0006-ruby
+    name: Ruby
+    category: language
+    priority: 55
+    tags: [language, ruby, rails]
+    match:
+      strategy: any
+      probes:
+        - id: ruby-signals
+          matchers:
+            - type: header.regex
+              key: Server
+              value: (?i)(passenger|puma|thin|webrick|unicorn)
+              weight: 100
+              evidence: Server banner reports a Ruby application server
+            - type: cookie.contains
+              value: _session_id=
+              weight: 80
+              evidence: Rails _session_id cookie
+    metadata:
+      references: ["https://guides.rubyonrails.org/"]
+      confidence: medium
+    examples:
+      positive:
+        - header: {Server: "Puma 6.4.0"}

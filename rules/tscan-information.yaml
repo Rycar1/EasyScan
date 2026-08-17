@@ -1,0 +1,307 @@
+# TscanPlus 响应型信息发现规则。
+# 由 tools/convert_tscan_resources.py 生成；请勿手工复制 TscanPlus 的主动 POC 内容。
+rules:
+- id: tscan.info.email-address
+  title: 响应中发现电子邮箱地址
+  severity: info
+  confidence: tentative
+  targets:
+  - response_body
+  pattern: \b(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+(cn|com|edu|gov|int|mil|net|org|biz|info|pro|name|museum|coop|aero|xxx|idv)))\b
+  description: 响应正文中出现电子邮箱地址，可能包含个人信息。
+  remediation: 确认该响应内容是否应公开；移除不必要的数据，并轮换已暴露的凭据。
+  tags:
+  - tscan
+  - passive
+  - information-disclosure
+- id: tscan.info.mobile-number
+  title: 响应中发现手机号码
+  severity: info
+  confidence: tentative
+  targets:
+  - response_body
+  pattern: \b(?:(?:\+|00)86)?1(?:(?:3[\d])|(?:4[5-79])|(?:5[0-35-9])|(?:6[5-7])|(?:7[0-8])|(?:8[\d])|(?:9[189]))\d{8}\b
+  description: 响应正文中出现中国大陆手机号码格式，可能包含个人信息。
+  remediation: 确认该响应内容是否应公开；移除不必要的数据，并轮换已暴露的凭据。
+  tags:
+  - tscan
+  - passive
+  - information-disclosure
+- id: tscan.info.mysql-config
+  title: 响应中发现 MySQL 配置片段
+  severity: info
+  confidence: tentative
+  targets:
+  - response_headers
+  - response_body
+  pattern: ((\[client\])|\[(mysql\])|(\[mysqld\]))
+  description: 响应中出现 MySQL 配置段标识，可能暴露数据库连接配置。
+  remediation: 确认该响应内容是否应公开；移除不必要的数据，并轮换已暴露的凭据。
+  tags:
+  - tscan
+  - passive
+  - information-disclosure
+- id: tscan.info.id-card-number
+  title: 响应中发现身份证号码
+  severity: info
+  confidence: tentative
+  targets:
+  - response_body
+  pattern: \b[1-9]\d{5}(?:18|19|20)\d{2}(?:0[1-9]|10|11|12)(?:0[1-9]|[1-2]\d|30|31)\d{3}[\dXx]\b
+  description: 响应正文中出现中国居民身份证号码格式，可能包含个人信息。
+  remediation: 确认该响应内容是否应公开；移除不必要的数据，并轮换已暴露的凭据。
+  tags:
+  - tscan
+  - passive
+  - information-disclosure
+- id: tscan.info.aliyun-oss-endpoint
+  title: 响应中发现阿里云 OSS 地址
+  severity: info
+  confidence: tentative
+  targets:
+  - response_headers
+  - response_body
+  pattern: '[\w-.]+\.oss\.aliyuncs\.com'
+  description: 响应中出现阿里云 OSS 域名，可用于排查公开存储资源。
+  remediation: 确认该响应内容是否应公开；移除不必要的数据，并轮换已暴露的凭据。
+  tags:
+  - tscan
+  - passive
+  - information-disclosure
+- id: tscan.info.private-network-address
+  title: 响应中发现内网地址
+  severity: info
+  confidence: tentative
+  targets:
+  - response_headers
+  - response_body
+  pattern: \b((127\.0\.0\.1)|(localhost)|(10\.\d{1,3}\.\d{1,3}\.\d{1,3})|(172\.((1[6-9])|(2\d)|(3[01]))\.\d{1,3}\.\d{1,3})|(192\.168\.\d{1,3}\.\d{1,3}))\b
+  description: 响应中出现本地或 RFC1918 内网地址，可能暴露内部网络信息。
+  remediation: 确认该响应内容是否应公开；移除不必要的数据，并轮换已暴露的凭据。
+  tags:
+  - tscan
+  - passive
+  - information-disclosure
+- id: tscan.info.password-value
+  title: 响应中发现密码字段值
+  severity: info
+  confidence: tentative
+  targets:
+  - response_headers
+  - response_body
+  pattern: (?i)[\"']?(password|passwd|pwd)[\"']?\s*[:=]\s*[\"'][^\"'\r\n]{6,}[\"']
+  description: 响应中出现带值的密码字段，可能泄露认证信息。
+  remediation: 确认该响应内容是否应公开；移除不必要的数据，并轮换已暴露的凭据。
+  tags:
+  - tscan
+  - passive
+  - information-disclosure
+- id: tscan.info.aws-storage-endpoint
+  title: 响应中发现 AWS 存储地址
+  severity: info
+  confidence: tentative
+  targets:
+  - response_headers
+  - response_body
+  pattern: (((([a-zA-Z0-9._-]+\.s3|s3)(\.|\-)+[a-zA-Z0-9._-]+|[a-zA-Z0-9._-]+\.s3|s3)\.amazonaws\.com)|(s3:\/\/[a-zA-Z0-9-\.\_]+)|(s3.console.aws.amazon.com\/s3\/buckets\/[a-zA-Z0-9-\.\_]+)|(amzn\.mws\.[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})|(ec2-[0-9-]+.cd-[a-z0-9-]+.compute.amazonaws.com)|(us[_-]?east[_-]?1[_-]?elb[_-]?amazonaws[_-]?com))
+  description: 响应中出现 AWS S3 或相关存储地址，可用于资产梳理。
+  remediation: 确认该响应内容是否应公开；移除不必要的数据，并轮换已暴露的凭据。
+  tags:
+  - tscan
+  - passive
+  - information-disclosure
+- id: tscan.info.github-token
+  title: 响应中发现 GitHub 访问令牌
+  severity: info
+  confidence: tentative
+  targets:
+  - response_headers
+  - response_body
+  pattern: ((ghp|ghu)\_[a-zA-Z0-9]{36})
+  description: 响应中出现 GitHub 访问令牌格式，应立即核实并轮换。
+  remediation: 确认该响应内容是否应公开；移除不必要的数据，并轮换已暴露的凭据。
+  tags:
+  - tscan
+  - passive
+  - information-disclosure
+- id: tscan.info.jdbc-connection
+  title: 响应中发现 JDBC 连接字符串
+  severity: info
+  confidence: tentative
+  targets:
+  - response_headers
+  - response_body
+  pattern: (jdbc:[a-z:]+://[A-Za-z0-9\.\-_:;=/@?,&]+)
+  description: 响应中出现 JDBC 数据库连接字符串，可能泄露内部服务地址或账号配置。
+  remediation: 确认该响应内容是否应公开；移除不必要的数据，并轮换已暴露的凭据。
+  tags:
+  - tscan
+  - passive
+  - information-disclosure
+- id: tscan.info.jwt-token
+  title: 响应中发现 JWT 格式令牌
+  severity: info
+  confidence: tentative
+  targets:
+  - response_headers
+  - response_body
+  pattern: (ey[A-Za-z0-9_-]{10,}\.[A-Za-z0-9._-]{10,}|ey[A-Za-z0-9_\/+-]{10,}\.[A-Za-z0-9._\/+-]{10,})
+  description: 响应中出现 JWT 格式令牌，应确认其是否为可复用会话凭据。
+  remediation: 确认该响应内容是否应公开；移除不必要的数据，并轮换已暴露的凭据。
+  tags:
+  - tscan
+  - passive
+  - information-disclosure
+- id: tscan.info.microsoft-teams-webhook
+  title: 响应中发现 Microsoft Teams Webhook
+  severity: info
+  confidence: tentative
+  targets:
+  - response_headers
+  - response_body
+  pattern: (https://outlook\.office\.com/webhook/[a-z0-9@-]+/IncomingWebhook/[a-z0-9-]+/[a-z0-9-]+)
+  description: 响应中出现 Microsoft Teams Webhook 地址，可能泄露集成凭据。
+  remediation: 确认该响应内容是否应公开；移除不必要的数据，并轮换已暴露的凭据。
+  tags:
+  - tscan
+  - passive
+  - information-disclosure
+- id: tscan.info.zoho-webhook
+  title: 响应中发现 Zoho Webhook
+  severity: info
+  confidence: tentative
+  targets:
+  - response_headers
+  - response_body
+  pattern: https://creator\.zoho\.com/api/[A-Za-z0-9/\-_\.]+\?authtoken=[A-Za-z0-9]+
+  description: 响应中出现 Zoho Webhook 地址及令牌参数，可能泄露集成凭据。
+  remediation: 确认该响应内容是否应公开；移除不必要的数据，并轮换已暴露的凭据。
+  tags:
+  - tscan
+  - passive
+  - information-disclosure
+- id: tscan.info.system-path
+  title: 响应中发现系统路径
+  severity: info
+  confidence: tentative
+  targets:
+  - response_body
+  pattern: ([a-zA-Z]:\\(\w+\\)+|[a-zA-Z]:\\\\(\w+\\\\)+)|(/(bin|dev|home|media|opt|root|sbin|sys|usr|boot|data|etc|lib|mnt|proc|run|srv|tmp|var)/[^<>()[\],;:\s"]+/)
+  description: 响应中出现 Windows 或 Unix 系统路径，可能暴露部署结构。
+  remediation: 确认该响应内容是否应公开；移除不必要的数据，并轮换已暴露的凭据。
+  tags:
+  - tscan
+  - passive
+  - information-disclosure
+- id: tscan.info.sonarqube-token
+  title: 响应中发现 SonarQube 令牌
+  severity: info
+  confidence: tentative
+  targets:
+  - response_headers
+  - response_body
+  pattern: (sonar.{0,50}(?:"|\'|`)?[0-9a-f]{40}(?:"|\'|`)?)
+  description: 响应中出现 SonarQube 令牌格式，应确认其是否仍有效。
+  remediation: 确认该响应内容是否应公开；移除不必要的数据，并轮换已暴露的凭据。
+  tags:
+  - tscan
+  - passive
+  - information-disclosure
+- id: tscan.info.aws-region
+  title: 响应中发现 AWS 区域信息
+  severity: info
+  confidence: tentative
+  targets:
+  - response_headers
+  - response_body
+  pattern: ((us(-gov)?|ap|ca|cn|eu|sa)-(central|(north|south)?(east|west)?)-\d)
+  description: 响应中出现 AWS 区域标识，可用于云资源暴露面梳理。
+  remediation: 确认该响应内容是否应公开；移除不必要的数据，并轮换已暴露的凭据。
+  tags:
+  - tscan
+  - passive
+  - information-disclosure
+- id: tscan.info.oauth-access-token
+  title: 响应中发现 OAuth 访问令牌
+  severity: info
+  confidence: tentative
+  targets:
+  - response_headers
+  - response_body
+  pattern: (ya29\.[0-9A-Za-z_-]+)
+  description: 响应中出现 OAuth 访问令牌格式，应确认其是否仍可使用。
+  remediation: 确认该响应内容是否应公开；移除不必要的数据，并轮换已暴露的凭据。
+  tags:
+  - tscan
+  - passive
+  - information-disclosure
+- id: tscan.info.application-error
+  title: 响应中发现应用错误信息
+  severity: info
+  confidence: tentative
+  targets:
+  - response_headers
+  - response_body
+  pattern: (Error report|in your SQL syntax|mysql_fetch_array|mysql_connect()|org.apache.catalina)
+  description: 响应中出现数据库或容器错误特征，可能泄露实现细节。
+  remediation: 确认该响应内容是否应公开；移除不必要的数据，并轮换已暴露的凭据。
+  tags:
+  - tscan
+  - passive
+  - information-disclosure
+- id: tscan.info.source-map-reference
+  title: 响应中发现 Source Map 引用
+  severity: info
+  confidence: tentative
+  targets:
+  - response_headers
+  - response_body
+  pattern: (\.js\.map)
+  description: 响应中出现 JavaScript Source Map 引用，可能暴露前端源码映射。
+  remediation: 确认该响应内容是否应公开；移除不必要的数据，并轮换已暴露的凭据。
+  tags:
+  - tscan
+  - passive
+  - information-disclosure
+- id: tscan.info.wecom-credential
+  title: 响应中发现企业微信凭据字段值
+  severity: info
+  confidence: tentative
+  targets:
+  - response_headers
+  - response_body
+  pattern: (?i)[\"']?corp(id|secret)[\"']?\s*[:=]\s*[\"'][A-Za-z0-9_-]{6,}[\"']
+  description: 响应中出现带值的企业微信 CorpId 或 CorpSecret 字段，应确认其是否为有效凭据。
+  remediation: 确认该响应内容是否应公开；移除不必要的数据，并轮换已暴露的凭据。
+  tags:
+  - tscan
+  - passive
+  - information-disclosure
+- id: tscan.info.aliyun-access-key
+  title: 响应中发现阿里云访问密钥标识
+  severity: info
+  confidence: tentative
+  targets:
+  - response_headers
+  - response_body
+  pattern: \bLTAI[a-zA-Z0-9]{12,20}\b
+  description: 响应中出现阿里云访问密钥 ID 格式，应确认其是否为有效凭据。
+  remediation: 确认该响应内容是否应公开；移除不必要的数据，并轮换已暴露的凭据。
+  tags:
+  - tscan
+  - passive
+  - information-disclosure
+- id: tscan.info.openid-appsecret
+  title: 响应中发现 OpenID 或 AppSecret 字段值
+  severity: info
+  confidence: tentative
+  targets:
+  - response_headers
+  - response_body
+  pattern: '"(openid|appsecret)":"[^"]+"'
+  description: 响应中出现带值的 OpenID 或 AppSecret 字段，可能泄露第三方应用凭据。
+  remediation: 确认该响应内容是否应公开；移除不必要的数据，并轮换已暴露的凭据。
+  tags:
+  - tscan
+  - passive
+  - information-disclosure

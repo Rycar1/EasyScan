@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<items>
+  <item>
+    <time>2026-07-16T09:00:00Z</time>
+    <url>https://app.example.test/swagger</url>
+    <method>GET</method>
+    <status>200</status>
+    <request base64="true">R0VUIC9zd2FnZ2VyIEhUVFAvMS4xDQpIb3N0OiBhcHAuZXhhbXBsZS50ZXN0DQoNCg==</request>
+    <response base64="true">SFRUUC8xLjEgMjAwIE9LDQpTZXJ2ZXI6IG5naW54LzEuMjQuMA0KDQo8dGl0bGU+U3dhZ2dlciBVSTwvdGl0bGU+</response>
+  </item>
+</items>

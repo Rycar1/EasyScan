@@ -1,0 +1,278 @@
+rules:
+  - id: core-cn3-0001-hillstone-firewall
+    name: Hillstone 山石网科防火墙
+    category: security-device
+    vendor: Hillstone
+    priority: 85
+    tags: [hillstone, firewall, security-device, cn]
+    match:
+      strategy: any
+      probes:
+        - id: hillstone-signals
+          matchers:
+            - type: body.contains
+              value: "hillstone stoneos software version"
+              weight: 100
+              evidence: Hillstone StoneOS version banner
+            - type: body.contains
+              value: "GLOBAL_CONFIG.js"
+              weight: 40
+              evidence: Hillstone console config script
+            - type: body.contains
+              value: 'href="resources/login-all.css"'
+              weight: 70
+              evidence: Hillstone HSA login stylesheet
+    metadata:
+      references: ["https://www.hillstonenet.com/", "https://github.com/0x727/FingerprintHub"]
+      confidence: high
+    examples:
+      positive:
+        - body: 'Hillstone StoneOS Software Version'
+
+  - id: core-cn3-0002-nsfocus
+    name: NSFOCUS 绿盟科技
+    category: security-device
+    vendor: NSFOCUS
+    priority: 85
+    tags: [nsfocus, security-device, cn]
+    match:
+      strategy: any
+      probes:
+        - id: nsfocus-signals
+          matchers:
+            - type: body.contains
+              value: "/login_logo_espc_zh_cn.png"
+              weight: 90
+              evidence: NSFOCUS ESPC login logo asset
+            - type: body.contains
+              value: "/login_logo_nf_zh_cn.png"
+              weight: 90
+              evidence: NSFOCUS NF firewall login logo asset
+            - type: body.contains
+              value: "/logo_login_nsfocus.png"
+              weight: 90
+              evidence: NSFOCUS VPN login logo asset
+            - type: body.contains
+              value: "绿盟科技企业安全中心"
+              weight: 100
+              evidence: NSFOCUS ESPC brand text
+    metadata:
+      references: ["https://www.nsfocus.com.cn/", "https://github.com/0x727/FingerprintHub"]
+      confidence: high
+    examples:
+      positive:
+        - body: '<img src="/login_logo_espc_zh_cn.png">'
+
+  - id: core-cn3-0003-topsec-firewall
+    name: Topsec 天融信
+    category: security-device
+    vendor: Topsec
+    priority: 85
+    tags: [topsec, tianrongxin, security-device, cn]
+    match:
+      strategy: any
+      probes:
+        - id: topsec-signals
+          matchers:
+            - type: body.contains
+              value: "天融信入侵防御系统topidp"
+              weight: 100
+              evidence: Topsec TopIDP brand text
+            - type: body.contains
+              value: "天融信数据防泄漏系统"
+              weight: 100
+              evidence: Topsec TopDLP brand text
+            - type: title.contains
+              value: 天融信 TopAPP
+              weight: 100
+              evidence: Topsec TopAPP load-balancer title
+            - type: body.contains
+              value: "天融信安全管理"
+              weight: 90
+              evidence: Topsec security management brand text
+    metadata:
+      references: ["https://www.topsec.com.cn/", "https://github.com/0x727/FingerprintHub"]
+      confidence: high
+    examples:
+      positive:
+        - body: '天融信数据防泄漏系统'
+
+  - id: core-cn3-0004-legendsec-firewall
+    name: Legendsec 网神防火墙
+    category: security-device
+    vendor: Legendsec
+    priority: 84
+    tags: [legendsec, wangshen, firewall, security-device, cn]
+    match:
+      strategy: any
+      probes:
+        - id: legendsec-signals
+          matchers:
+            - type: body.contains
+              value: "网神SecGate"
+              weight: 100
+              evidence: Legendsec SecGate brand text
+            - type: body.contains
+              value: "网神防火墙系统"
+              weight: 100
+              evidence: Legendsec firewall brand text
+    metadata:
+      references: ["https://www.legendsec.com/", "https://github.com/0x727/FingerprintHub"]
+      confidence: high
+    examples:
+      positive:
+        - body: '网神SecGate 3600防火墙'
+
+  - id: core-cn3-0005-dbappsecurity
+    name: DBAPPSecurity 安恒信息
+    category: security-device
+    vendor: DBAPPSecurity
+    priority: 84
+    tags: [dbappsecurity, anheng, security-device, cn]
+    match:
+      strategy: any
+      probes:
+        - id: dbapp-signals
+          matchers:
+            - type: body.contains
+              value: "明御web应用防火墙"
+              weight: 100
+              evidence: DBAPP MingYu WAF brand text
+            - type: body.contains
+              value: "明御运维审计"
+              weight: 100
+              evidence: DBAPP MingYu bastion brand text
+            - type: body.contains
+              value: "scripts/app.waf.system.login.js"
+              weight: 90
+              evidence: DBAPP WAF login script asset
+            - type: body.contains
+              value: "安恒云堡垒机"
+              weight: 100
+              evidence: DBAPP cloud bastion brand text
+    metadata:
+      references: ["https://www.dbappsecurity.com.cn/", "https://github.com/0x727/FingerprintHub"]
+      confidence: high
+    examples:
+      positive:
+        - body: '明御web应用防火墙'
+
+  - id: core-cn3-0006-qianxin
+    name: QiAnXin 奇安信
+    category: security-device
+    vendor: QiAnXin
+    priority: 84
+    tags: [qianxin, security-device, edr, cn]
+    match:
+      strategy: any
+      probes:
+        - id: qianxin-signals
+          matchers:
+            - type: body.contains
+              value: "360新天擎"
+              weight: 100
+              evidence: QiAnXin TianQing brand text
+            - type: body.contains
+              value: "奇安信新天擎"
+              weight: 100
+              evidence: QiAnXin TianQing brand text
+            - type: body.contains
+              value: "360天机管理中心"
+              weight: 100
+              evidence: QiAnXin TianJi console brand text
+            - type: body.contains
+              value: "ngsoc日志采集探针"
+              weight: 100
+              evidence: QiAnXin NGSOC probe brand text
+    metadata:
+      references: ["https://www.qianxin.com/", "https://github.com/0x727/FingerprintHub"]
+      confidence: high
+    examples:
+      positive:
+        - body: '<div>360新天擎</div>'
+
+  - id: core-cn3-0007-venustech
+    name: Venustech 启明星辰
+    category: security-device
+    vendor: Venustech
+    priority: 84
+    tags: [venustech, qiming, security-device, cn]
+    match:
+      strategy: any
+      probes:
+        - id: venustech-signals
+          matchers:
+            - type: body.contains
+              value: "天清汉马USG防火墙"
+              weight: 100
+              evidence: Venustech USG firewall brand text
+            - type: body.contains
+              value: "Venusense"
+              weight: 90
+              evidence: Venustech Venusense marker
+            - type: body.contains
+              value: "天玥网络安全审计"
+              weight: 100
+              evidence: Venustech TianYue audit brand text
+            - type: body.contains
+              value: "天清web应用安全网关"
+              weight: 100
+              evidence: Venustech WAF gateway brand text
+    metadata:
+      references: ["https://www.venustech.com.cn/", "https://github.com/0x727/FingerprintHub"]
+      confidence: high
+    examples:
+      positive:
+        - body: '天清汉马USG防火墙'
+
+  - id: core-cn3-0008-hikvision-ivms
+    name: Hikvision iVMS
+    category: security-device
+    vendor: Hikvision
+    priority: 82
+    tags: [hikvision, haikang, camera, nvr, cn]
+    match:
+      strategy: any
+      probes:
+        - id: hikvision-signals
+          matchers:
+            - type: body.contains
+              value: "杭州海康威视系统技术有限公司 版权所有"
+              weight: 100
+              evidence: Hikvision iVMS copyright text
+            - type: body.contains
+              value: "杭州海康威视数字技术股份有限公司"
+              weight: 100
+              evidence: Hikvision digital tech copyright text
+    metadata:
+      references: ["https://www.hikvision.com/", "https://github.com/0x727/FingerprintHub"]
+      confidence: high
+    examples:
+      positive:
+        - body: '杭州海康威视系统技术有限公司 版权所有'
+
+  - id: core-cn3-0009-dahua-dss
+    name: Dahua DSS
+    category: security-device
+    vendor: Dahua
+    priority: 82
+    tags: [dahua, camera, nvr, cn]
+    match:
+      strategy: all
+      probes:
+        - id: dahua-signals
+          matchers:
+            - type: body.contains
+              value: '<li id="DSS-help">'
+              weight: 80
+              evidence: Dahua DSS help element
+            - type: body.contains
+              value: "DSS助手"
+              weight: 90
+              evidence: Dahua DSS assistant text
+    metadata:
+      references: ["https://www.dahuatech.com/", "https://github.com/0x727/FingerprintHub"]
+      confidence: high
+    examples:
+      positive:
+        - body: '<li id="DSS-help"></li><span>DSS助手</span>'

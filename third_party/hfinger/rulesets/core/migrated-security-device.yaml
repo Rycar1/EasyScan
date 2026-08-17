@@ -1,0 +1,388 @@
+rules:
+    - id: builtin-0067
+      name: 天融信VPN设备
+      category: security-device
+      tags:
+        - migrated
+        - security-device
+      match:
+        strategy: all
+        probes:
+            - id: default
+              matchers:
+                - type: header.contains
+                  value: topsecsvportalname
+                  weight: 100
+                  evidence: Migrated HTTP header evidence for 天融信VPN设备
+      negative:
+        - type: body.contains
+          value: 天融信VPN设备 漏洞
+          reason: Vulnerability articles can mention this VPN without being a deployed device.
+      metadata:
+        references:
+            - builtin:migrated-legacy-rule
+        confidence: medium
+
+    - id: builtin-0116
+      name: WiseGrid慧敏应用交付网关
+      category: security-device
+      tags:
+        - migrated
+        - security-device
+      match:
+        strategy: all
+        probes:
+            - id: default
+              matchers:
+                - type: favicon.hash
+                  value: "910523681"
+                  weight: 100
+                  evidence: Migrated favicon hash evidence for WiseGrid慧敏应用交付网关
+      negative:
+        - type: body.contains
+          value: WiseGrid 慧敏应用交付网关 漏洞
+          reason: Vulnerability articles can mention WiseGrid without being a deployed gateway.
+      metadata:
+        references:
+            - builtin:migrated-legacy-rule
+        confidence: medium
+
+    - id: builtin-0133
+      name: Leadsec-SSL-VPN
+      category: security-device
+      tags:
+        - migrated
+        - security-device
+      match:
+        strategy: any
+        probes:
+            - id: default
+              matchers:
+                - type: header.contains
+                  value: XDaemon
+                  weight: 100
+                  evidence: Migrated HTTP header evidence for Leadsec-SSL-VPN
+      metadata:
+        references:
+            - builtin:migrated-legacy-rule
+        confidence: medium
+
+    - id: builtin-0211
+      name: Exostar – Managed Access Gateway
+      category: security-device
+      tags:
+        - migrated
+        - security-device
+      match:
+        strategy: all
+        probes:
+            - id: default
+              matchers:
+                - type: favicon.hash
+                  value: "420473080"
+                  weight: 100
+                  evidence: Migrated favicon hash evidence for Exostar – Managed Access Gateway
+      metadata:
+        references:
+            - builtin:migrated-legacy-rule
+        confidence: medium
+
+    - id: builtin-0248
+      name: TilginAB (HomeGateway)
+      category: security-device
+      tags:
+        - migrated
+        - security-device
+      match:
+        strategy: all
+        probes:
+            - id: default
+              matchers:
+                - type: favicon.hash
+                  value: "-1346447358"
+                  weight: 100
+                  evidence: Migrated favicon hash evidence for TilginAB (HomeGateway)
+      metadata:
+        references:
+            - builtin:migrated-legacy-rule
+        confidence: medium
+
+    - id: builtin-0253
+      name: Sophos User Portal/VPN Portal
+      category: security-device
+      tags:
+        - migrated
+        - security-device
+      match:
+        strategy: all
+        probes:
+            - id: default
+              matchers:
+                - type: favicon.hash
+                  value: "1045696447"
+                  weight: 100
+                  evidence: Migrated favicon hash evidence for Sophos User Portal/VPN Portal
+      metadata:
+        references:
+            - builtin:migrated-legacy-rule
+        confidence: medium
+
+    - id: builtin-0257
+      name: OpenVPN
+      category: security-device
+      tags:
+        - migrated
+        - security-device
+      match:
+        strategy: all
+        probes:
+            - id: default
+              matchers:
+                - type: favicon.hash
+                  value: "396533629"
+                  weight: 100
+                  evidence: Migrated favicon hash evidence for OpenVPN
+      metadata:
+        references:
+            - builtin:migrated-legacy-rule
+        confidence: medium
+
+    - id: builtin-0272
+      name: ZTE Corporation (Gateway/Appliance)
+      category: security-device
+      tags:
+        - migrated
+        - security-device
+      match:
+        strategy: all
+        probes:
+            - id: default
+              matchers:
+                - type: favicon.hash
+                  value: "459900502"
+                  weight: 100
+                  evidence: Migrated favicon hash evidence for ZTE Corporation (Gateway/Appliance)
+      metadata:
+        references:
+            - builtin:migrated-legacy-rule
+        confidence: medium
+
+    - id: builtin-0276
+      name: Technicolor Gateway
+      category: security-device
+      tags:
+        - migrated
+        - security-device
+      match:
+        strategy: all
+        probes:
+            - id: default
+              matchers:
+                - type: favicon.hash
+                  value: "1835479497"
+                  weight: 100
+                  evidence: Migrated favicon hash evidence for Technicolor Gateway
+      metadata:
+        references:
+            - builtin:migrated-legacy-rule
+        confidence: medium
+
+    - id: builtin-0311
+      name: Residential Gateway
+      category: security-device
+      tags:
+        - migrated
+        - security-device
+      match:
+        strategy: all
+        probes:
+            - id: default
+              matchers:
+                - type: favicon.hash
+                  value: "-1933493443"
+                  weight: 100
+                  evidence: Migrated favicon hash evidence for Residential Gateway
+      metadata:
+        references:
+            - builtin:migrated-legacy-rule
+        confidence: medium
+
+    - id: builtin-0373
+      name: Nomadix Access Gateway
+      category: security-device
+      tags:
+        - migrated
+        - security-device
+      match:
+        strategy: all
+        probes:
+            - id: default
+              matchers:
+                - type: favicon.hash
+                  value: "2071993228"
+                  weight: 100
+                  evidence: Migrated favicon hash evidence for Nomadix Access Gateway
+      metadata:
+        references:
+            - builtin:migrated-legacy-rule
+        confidence: medium
+
+    - id: builtin-0567
+      name: Synology VPN Plus
+      category: security-device
+      tags:
+        - migrated
+        - security-device
+      match:
+        strategy: all
+        probes:
+            - id: default
+              matchers:
+                - type: favicon.hash
+                  value: "1235070469"
+                  weight: 100
+                  evidence: Migrated favicon hash evidence for Synology VPN Plus
+      metadata:
+        references:
+            - builtin:migrated-legacy-rule
+        confidence: medium
+
+    - id: builtin-0593
+      name: GPON Home Gateway
+      category: security-device
+      tags:
+        - migrated
+        - security-device
+      match:
+        strategy: all
+        probes:
+            - id: default
+              matchers:
+                - type: favicon.hash
+                  value: "251106693"
+                  weight: 100
+                  evidence: Migrated favicon hash evidence for GPON Home Gateway
+      metadata:
+        references:
+            - builtin:migrated-legacy-rule
+        confidence: medium
+
+    - id: builtin-0605
+      name: Surfilter SSL VPN Portal
+      category: security-device
+      tags:
+        - migrated
+        - security-device
+      match:
+        strategy: all
+        probes:
+            - id: default
+              matchers:
+                - type: favicon.hash
+                  value: "-590892202"
+                  weight: 100
+                  evidence: Migrated favicon hash evidence for Surfilter SSL VPN Portal
+      metadata:
+        references:
+            - builtin:migrated-legacy-rule
+        confidence: medium
+
+    - id: builtin-0690
+      name: JumpServer 堡垒机
+      category: security-device
+      tags:
+        - migrated
+        - security-device
+      match:
+        strategy: all
+        probes:
+            - id: default
+              matchers:
+                - type: favicon.hash
+                  value: "-1162630024"
+                  weight: 100
+                  evidence: Migrated favicon hash evidence for JumpServer 堡垒机
+      metadata:
+        references:
+            - builtin:migrated-legacy-rule
+        confidence: medium
+
+    - id: builtin-0822
+      name: 天融信VPN
+      category: security-device
+      tags:
+        - migrated
+        - security-device
+      match:
+        strategy: all
+        probes:
+            - id: default
+              matchers:
+                - type: header.contains
+                  value: topsecsvportalstyle
+                  weight: 100
+                  evidence: Migrated HTTP header evidence for 天融信VPN
+      metadata:
+        references:
+            - builtin:migrated-legacy-rule
+        confidence: medium
+
+    - id: builtin-1012
+      name: 锐捷 SSL VPN
+      category: security-device
+      tags:
+        - migrated
+        - security-device
+      match:
+        strategy: all
+        probes:
+            - id: default
+              matchers:
+                - type: favicon.hash
+                  value: "-1525950034"
+                  weight: 100
+                  evidence: Migrated favicon hash evidence for 锐捷 SSL VPN
+      metadata:
+        references:
+            - builtin:migrated-legacy-rule
+        confidence: medium
+
+    - id: builtin-1020
+      name: 迈普多业务融合网关
+      category: security-device
+      tags:
+        - migrated
+        - security-device
+      match:
+        strategy: all
+        probes:
+            - id: default
+              matchers:
+                - type: favicon.hash
+                  value: "-1234665500"
+                  weight: 100
+                  evidence: Migrated favicon hash evidence for 迈普多业务融合网关
+      metadata:
+        references:
+            - builtin:migrated-legacy-rule
+        confidence: medium
+
+    - id: builtin-1028
+      name: Array-VPN
+      category: security-device
+      tags:
+        - migrated
+        - security-device
+      match:
+        strategy: all
+        probes:
+            - id: default
+              matchers:
+                - type: favicon.hash
+                  value: "-1006818220"
+                  weight: 100
+                  evidence: Migrated favicon hash evidence for Array-VPN
+      metadata:
+        references:
+            - builtin:migrated-legacy-rule
+        confidence: medium

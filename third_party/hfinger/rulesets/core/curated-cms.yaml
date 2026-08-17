@@ -1,0 +1,42 @@
+rules:
+  - id: core-0139-wordpress
+    name: WordPress
+    category: cms
+    vendor: Automattic
+    priority: 92
+    tags: [wordpress, cms, blog]
+    match:
+      strategy: score
+      threshold: 60
+      probes:
+        - id: wordpress
+          matchers:
+            - type: title.contains
+              value: WordPress
+              weight: 40
+              evidence: WordPress title
+            - type: body.contains
+              value: "wp-content"
+              weight: 60
+              evidence: WordPress content directory
+            - type: body.contains
+              value: "wp-admin"
+              weight: 50
+              evidence: WordPress admin path
+            - type: body.contains
+              value: "wp-includes"
+              weight: 50
+              evidence: WordPress includes directory
+    negative:
+      - type: body.contains
+        value: "WordPress documentation"
+        reason: Exclude documentation pages
+    metadata:
+      references: ["https://wordpress.org/"]
+      confidence: high
+    examples:
+      positive:
+        - title: WordPress
+          body: '<script src="/wp-content/themes/site/app.js"></script>'
+      negative:
+        - body: "WordPress documentation"

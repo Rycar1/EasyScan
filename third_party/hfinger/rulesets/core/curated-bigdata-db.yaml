@@ -1,0 +1,145 @@
+rules:
+  - id: core-data-0001-clickhouse
+    name: ClickHouse
+    category: database
+    vendor: ClickHouse
+    priority: 82
+    tags: [clickhouse, olap, database, bigdata]
+    match:
+      strategy: any
+      probes:
+        - id: clickhouse-signals
+          matchers:
+            - type: header.contains
+              key: X-ClickHouse-Summary
+              value: "read_rows"
+              weight: 100
+              evidence: ClickHouse HTTP summary header
+    metadata:
+      references: ["https://clickhouse.com/", "https://github.com/projectdiscovery/nuclei-templates"]
+      confidence: high
+    examples:
+      positive:
+        - header: {X-ClickHouse-Summary: '{"read_rows":"0"}'}
+
+  - id: core-data-0002-neo4j
+    name: Neo4j
+    category: database
+    vendor: Neo4j
+    priority: 82
+    tags: [neo4j, graph, database]
+    match:
+      strategy: any
+      probes:
+        - id: neo4j-signals
+          matchers:
+            - type: title.contains
+              value: Neo4j Browser
+              weight: 100
+              evidence: Neo4j Browser title
+    metadata:
+      references: ["https://neo4j.com/", "https://github.com/projectdiscovery/nuclei-templates"]
+      confidence: high
+    examples:
+      positive:
+        - body: '<title>Neo4j Browser</title>'
+
+  - id: core-data-0003-hadoop-hue
+    name: Hue
+    category: bigdata
+    vendor: Cloudera
+    priority: 80
+    tags: [hue, hadoop, bigdata]
+    match:
+      strategy: any
+      probes:
+        - id: hue-signals
+          matchers:
+            - type: body.contains
+              value: "jHueHdfsTreeGlobals"
+              weight: 100
+              evidence: Hue HDFS tree globals marker
+            - type: body.contains
+              value: "Hue and the Hue logo are trademarks of Cloudera"
+              weight: 100
+              evidence: Hue trademark text
+    metadata:
+      references: ["https://gethue.com/", "https://github.com/0x727/FingerprintHub"]
+      confidence: high
+    examples:
+      positive:
+        - body: '<script>jHueHdfsTreeGlobals={}</script>'
+
+  - id: core-data-0004-zeppelin
+    name: Apache Zeppelin
+    category: bigdata
+    vendor: Apache
+    priority: 80
+    tags: [zeppelin, notebook, bigdata, spark]
+    match:
+      strategy: any
+      probes:
+        - id: zeppelin-signals
+          matchers:
+            - type: title.contains
+              value: Zeppelin
+              weight: 90
+              evidence: Zeppelin page title
+            - type: body.contains
+              value: 'ng-bind="$root.pageTitle">Zeppelin'
+              weight: 100
+              evidence: Zeppelin Angular title binding
+    metadata:
+      references: ["https://zeppelin.apache.org/", "https://github.com/0x727/FingerprintHub"]
+      confidence: high
+    examples:
+      positive:
+        - body: '<title ng-bind="$root.pageTitle">Zeppelin</title>'
+
+  - id: core-data-0005-elastichd
+    name: ElasticHD
+    category: database-tool
+    vendor: ElasticHD
+    priority: 78
+    tags: [elastichd, elasticsearch, database-tool]
+    match:
+      strategy: any
+      probes:
+        - id: elastichd-signals
+          matchers:
+            - type: title.contains
+              value: Elastic HD Dashboard
+              weight: 100
+              evidence: ElasticHD dashboard title
+    metadata:
+      references: ["https://github.com/qax-os/ElasticHD", "https://github.com/0x727/FingerprintHub"]
+      confidence: high
+    examples:
+      positive:
+        - body: '<title>Elastic HD Dashboard</title>'
+
+  - id: core-data-0006-druid-monitor
+    name: Alibaba Druid Monitor
+    category: database-tool
+    vendor: Alibaba
+    priority: 78
+    tags: [druid, connection-pool, monitor, java]
+    match:
+      strategy: any
+      probes:
+        - id: druid-signals
+          matchers:
+            - type: title.contains
+              value: Druid Stat Index
+              weight: 90
+              evidence: Druid stat index title
+            - type: body.contains
+              value: "druid.sql.WallProvider"
+              weight: 80
+              evidence: Druid monitor JSON key
+    metadata:
+      references: ["https://github.com/alibaba/druid", "https://github.com/projectdiscovery/nuclei-templates"]
+      confidence: medium
+    examples:
+      positive:
+        - body: '<title>Druid Stat Index</title>'

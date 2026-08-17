@@ -1,0 +1,9 @@
+{
+  "manifest_version": 3,
+  "name": "EasyScan DevTools Capture",
+  "version": "0.1.0",
+  "description": "Explicitly forwards inspected-tab HTTP transactions to a local EasyScan instance.",
+  "devtools_page": "devtools.html",
+  "permissions": ["storage"],
+  "host_permissions": ["http://127.0.0.1/*", "http://localhost/*"]
+}

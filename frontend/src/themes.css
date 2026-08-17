@@ -1,0 +1,198 @@
+/* ============================================================
+   EasyScan Theme System
+   5 classic color schemes with bold accent contrasts.
+   Switch via [data-theme="..."] on <html>.
+   ============================================================ */
+
+/* ---- Theme: Midnight Ocean (default — deep navy + ice blue) ---- */
+:root,
+[data-theme="midnight"] {
+  color-scheme: dark;
+  --canvas: #0b1017;
+  --sidebar: #0e151e;
+  --surface: #121a24;
+  --surface-raised: #16202c;
+  --surface-hover: #1a2735;
+  --surface-selected: #18293b;
+  --code-surface: #0a1119;
+  --ink: #edf3f8;
+  --ink-strong: #f7fafc;
+  --muted: #91a0b0;
+  --muted-strong: #b4c0cc;
+  --border: #263545;
+  --border-subtle: #1d2a37;
+  --border-strong: #3a5068;
+  --brand: #78a9e6;
+  --brand-strong: #9bc4f6;
+  --brand-pale: rgb(120 169 230 / 15%);
+  --danger: #ff7770;
+  --danger-strong: #ffaaa4;
+  --danger-pale: rgb(255 119 112 / 11%);
+  --warning: #e5bb67;
+  --warning-strong: #ffd184;
+  --warning-pale: rgb(229 187 103 / 12%);
+  --success: #77c7a0;
+  --success-pale: rgb(119 199 160 / 13%);
+  --radius-shell: 14px;
+  --radius-panel: 10px;
+  --radius-control: 7px;
+  --shadow-float: 0 12px 28px rgb(2 7 13 / 32%);
+  --motion-fast: 120ms;
+  --motion-base: 180ms;
+  --ease-standard: cubic-bezier(.2, .7, .2, 1);
+}
+
+/* ---- Theme: Crimson Noir (charcoal black + crimson red) ---- */
+[data-theme="crimson"] {
+  color-scheme: dark;
+  --canvas: #0d0a0b;
+  --sidebar: #120d0e;
+  --surface: #1a1314;
+  --surface-raised: #221819;
+  --surface-hover: #2a1d1e;
+  --surface-selected: #321f20;
+  --code-surface: #0c0809;
+  --ink: #f5ede9;
+  --ink-strong: #fff8f4;
+  --muted: #a89090;
+  --muted-strong: #c4a8a8;
+  --border: #3a2829;
+  --border-subtle: #2a1c1d;
+  --border-strong: #503334;
+  --brand: #e94560;
+  --brand-strong: #ff6b81;
+  --brand-pale: rgb(233 69 96 / 15%);
+  --danger: #ff4757;
+  --danger-strong: #ff6b81;
+  --danger-pale: rgb(255 71 87 / 12%);
+  --warning: #ffa502;
+  --warning-strong: #ffbe3d;
+  --warning-pale: rgb(255 165 2 / 12%);
+  --success: #2ed573;
+  --success-pale: rgb(46 213 115 / 13%);
+  --shadow-float: 0 12px 28px rgb(5 2 3 / 40%);
+}
+
+/* ---- Theme: Forest Emerald (deep green + gold) ---- */
+[data-theme="forest"] {
+  color-scheme: dark;
+  --canvas: #0a120e;
+  --sidebar: #0d1812;
+  --surface: #112019;
+  --surface-raised: #152920;
+  --surface-hover: #1a3328;
+  --surface-selected: #1e3a2e;
+  --code-surface: #080f0b;
+  --ink: #e8f5ed;
+  --ink-strong: #f4fdf7;
+  --muted: #8aaa97;
+  --muted-strong: #a8c4b5;
+  --border: #1f3a2e;
+  --border-subtle: #16291f;
+  --border-strong: #2d5040;
+  --brand: #f0c040;
+  --brand-strong: #ffd55a;
+  --brand-pale: rgb(240 192 64 / 15%);
+  --danger: #ff6b6b;
+  --danger-strong: #ff9494;
+  --danger-pale: rgb(255 107 107 / 12%);
+  --warning: #ffa94d;
+  --warning-strong: #ffc777;
+  --warning-pale: rgb(255 169 77 / 12%);
+  --success: #51cf66;
+  --success-pale: rgb(81 207 102 / 13%);
+  --shadow-float: 0 12px 28px rgb(3 8 5 / 36%);
+}
+
+/* ---- Theme: Royal Indigo (deep indigo + amber gold) ---- */
+[data-theme="indigo"] {
+  color-scheme: dark;
+  --canvas: #0a0b1a;
+  --sidebar: #0d0f22;
+  --surface: #11142b;
+  --surface-raised: #161a36;
+  --surface-hover: #1c2143;
+  --surface-selected: #222150;
+  --code-surface: #070815;
+  --ink: #e8eaf6;
+  --ink-strong: #f5f7ff;
+  --muted: #9094b8;
+  --muted-strong: #a8acd0;
+  --border: #252a50;
+  --border-subtle: #1a1e3d;
+  --border-strong: #383f6e;
+  --brand: #ffb830;
+  --brand-strong: #ffd05a;
+  --brand-pale: rgb(255 184 48 / 15%);
+  --danger: #ff5252;
+  --danger-strong: #ff7878;
+  --danger-pale: rgb(255 82 82 / 12%);
+  --warning: #ff9100;
+  --warning-strong: #ffae38;
+  --warning-pale: rgb(255 145 0 / 12%);
+  --success: #00e676;
+  --success-pale: rgb(0 230 118 / 13%);
+  --shadow-float: 0 12px 28px rgb(2 3 12 / 40%);
+}
+
+/* ---- Theme: Solar Flare (warm dark + electric orange) ---- */
+[data-theme="solar"] {
+  color-scheme: dark;
+  --canvas: #120c08;
+  --sidebar: #1a110a;
+  --surface: #22160e;
+  --surface-raised: #2c1d13;
+  --surface-hover: #362518;
+  --surface-selected: #402d1d;
+  --code-surface: #100a06;
+  --ink: #fdf0e0;
+  --ink-strong: #fff8ed;
+  --muted: #b89878;
+  --muted-strong: #d0b090;
+  --border: #3d2818;
+  --border-subtle: #2a1c12;
+  --border-strong: #553820;
+  --brand: #ff8c00;
+  --brand-strong: #ffae3d;
+  --brand-pale: rgb(255 140 0 / 15%);
+  --danger: #ff3838;
+  --danger-strong: #ff6b6b;
+  --danger-pale: rgb(255 56 56 / 12%);
+  --warning: #ffd000;
+  --warning-strong: #ffe333;
+  --warning-pale: rgb(255 208 0 / 12%);
+  --success: #00d26a;
+  --success-pale: rgb(0 210 106 / 13%);
+  --shadow-float: 0 12px 28px rgb(8 4 1 / 40%);
+}
+
+/* ---- Theme: Arctic Light (light mode — white + cobalt blue) ---- */
+[data-theme="arctic"] {
+  color-scheme: light;
+  --canvas: #f0f3f8;
+  --sidebar: #ffffff;
+  --surface: #ffffff;
+  --surface-raised: #f7f9fc;
+  --surface-hover: #eef2f8;
+  --surface-selected: #e3eaf5;
+  --code-surface: #f5f7fa;
+  --ink: #1a2332;
+  --ink-strong: #0d1520;
+  --muted: #5a6b80;
+  --muted-strong: #3d4d62;
+  --border: #d0d9e6;
+  --border-subtle: #e0e8f0;
+  --border-strong: #b0bfd2;
+  --brand: #2563eb;
+  --brand-strong: #1d4fd1;
+  --brand-pale: rgb(37 99 235 / 10%);
+  --danger: #dc2626;
+  --danger-strong: #b91c1c;
+  --danger-pale: rgb(220 38 38 / 8%);
+  --warning: #d97706;
+  --warning-strong: #b45309;
+  --warning-pale: rgb(217 119 6 / 10%);
+  --success: #059669;
+  --success-pale: rgb(5 150 105 / 10%);
+  --shadow-float: 0 8px 24px rgb(20 30 50 / 12%);
+}

@@ -1,0 +1,102 @@
+proxy:
+  # 被动代理监听地址；浏览器代理填写 http://127.0.0.1:7777。
+  listen: 127.0.0.1:7777
+  # 单个请求或响应最多保留的字节数，超出部分不参与分析。
+  max_body_bytes: 1048576
+  # HTTPS 中间人解密。当前示例已开启，配合 scope.allow_hosts: ["*"] 可像 Burp 一样拦截代理经过的全部 HTTPS。
+  mitm: true
+  # 本地 CA 证书与私钥的保存目录。
+  ca_dir: data/ca
+api:
+  # 本地流量接入 API 的监听地址，供浏览器/代理适配器上报流量；桌面界面不通过浏览器端口访问。
+  listen: 127.0.0.1:8787
+  # 若 API 改为非本机地址，必须设置随机令牌，例如：token: "change-me"。
+  # token: ""
+scope:
+  # 当前示例采用“默认全拦截”模式：匹配所有主机，再由 deny_hosts 排除不希望代理分析/解密的目标。
+  # 如果后续要启用 active.enabled: true，请先把这里改回明确授权范围，例如：["*.example.test", "api.example.test"]。
+  allow_hosts: ["*"]
+  # 授权内网目标可设为 true；IP 地址仍需明确写入 allow_hosts。
+  allow_private_ips: true
+  # 黑名单优先级高于 allow_hosts；写在这里的主机即使命中 "*" 也不会被代理分析或 HTTPS 解密。
+  # 若要扫描本机靶场，需要从此列表移除 localhost / 127.0.0.1。
+  deny_hosts: []
+privacy:
+  # 报告中的请求/响应证据脱敏，建议保持开启。
+  redact_evidence: true
+rules:
+  # 自定义被动规则文件列表。
+  files: ["rules/example.yaml"]
+fingerprints:
+  hfinger:
+    # HackAllSec/hfinger 核心规则已内嵌；此目录中的 .yaml/.yml 会叠加并支持热重载。
+    custom_dir: "fingerprints/custom"
+    max_matches_per_transaction: 40
+storage:
+  # SQLite 数据库路径：保存发现、资产、任务和审计记录，不保存原始 HTTP 正文。
+  path: "data/easyscan.db"
+reports:
+  # 自动生成自包含 HTML 扫描结果；包含“漏洞结果”和“指纹识别”两个分区。
+  auto_html: true
+  # 相对路径以本 easyscan.yaml 所在目录为准；留在同目录便于直接查看和转发。
+  html_path: "easyscan-scan-report.html"
+features:
+  # 桌面客户端“功能策略”中的开关会写入此文件；锁定类型始终无法开启。
+  path: "features.yaml"
+active:
+  # 主动扫描总开关。任务仍需在桌面端逐次确认，并同时通过 allow_hosts 范围校验。
+  enabled: false
+  # 同时运行的任务数。
+  max_concurrent_tasks: 2
+  # 所有主动任务共享的最大并发请求数。
+  max_concurrent_requests: 4
+  # 单次网络请求超时（秒）。
+  timeout_seconds: 3
+  # 请求间最小间隔（毫秒）；会和 webscan.http.max_qps 取更严格的限制。
+  min_interval_ms: 250
+  # 单个任务允许发出的最大逻辑请求数；端口扫描等任务同样受此限制。
+  max_requests_per_task: 50
+  # 是否启用本地 Chrome 的浏览器爬取；仅限同源 GET，不点击或提交表单。
+  enable_headless_crawl: false
+webscan:
+  # 参考 EZ WebScan 的安全执行控制。以下设置只在主动任务通过授权、范围校验后生效。
+  http:
+    # 每秒最大请求数；0 表示仅使用 active.min_interval_ms 控速。
+    max_qps: 4
+    # 仅在网络传输错误时重试，范围 0-3；不会重试造成业务状态变化的请求（工具只发 GET）。
+    retry: 0
+    # WebScan HTTP 请求超时（秒），未设置时使用 active.timeout_seconds。
+    timeout_seconds: 3
+    # 最多允许的重定向次数，范围 0-5；重定向始终不能离开授权主机。
+    max_redirect: 0
+    headers:
+      # 默认头：只有原请求没有相同头时才加入。
+      Accept: "text/html,application/xhtml+xml,application/json;q=0.9,*/*;q=0.8"
+    # 强制头：覆盖同名默认头。Host、Content-Length、代理及连接控制头会被忽略。
+    headers_force: {}
+    # 连续网络失败达到此数量时，停止该任务后续 HTTP 请求，避免持续打扰目标。
+    max_failures: 5
+    # 路径包含以下关键字时不扫描，例如：["/logout", "/delete", "/reset-password"]。
+    disallowed_scan_path: []
+    # 严格同源：禁止跳转到相同主机的不同协议或端口，建议保持 true。
+    strict_same_origin: true
+  crawler:
+    # Chrome/Chromium 可执行文件路径；留空时从系统 PATH 自动查找。
+    chrome_path: ""
+    # Chrome 无沙箱模式。通常保持 false；受限容器环境可在明确评估后改为 true。
+    no_sandbox: false
+    # 浏览器爬取不加载图片，减少请求量。
+    disable_images: true
+    # 主动 HTTP/网站爬取使用的 User-Agent。
+    user_agent: "EasyScan/0.1 authorized-verification"
+    # 网站爬取的最大链接深度，入口页为 0，范围 0-10。
+    max_depth: 2
+    # 最多分析的页面数；实际值不会超过 active.max_requests_per_task。
+    max_pages: 50
+    # 这些文件后缀不会被网站爬取访问，减少下载文件或媒体文件请求。
+    excluded_suffixes: [".zip", ".gz", ".tar", ".pdf", ".mp4", ".avi"]
+analysis:
+  # true 时仅保留资产和指纹识别，跳过普通被动风险检查，类似 EZ 的 disable-pocs all。
+  only_fingerprint: false
+  # 关闭指定被动检查，支持精确 ID 或通配符，例如：["passive.candidate.*"]。
+  disabled_checks: []

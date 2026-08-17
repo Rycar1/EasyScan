@@ -1,0 +1,96 @@
+rules:
+  - id: core-lcwf-0001-n8n
+    name: n8n
+    category: workflow
+    vendor: n8n
+    priority: 82
+    tags: [n8n, workflow, automation, lowcode]
+    match:
+      strategy: any
+      probes:
+        - id: n8n-signals
+          matchers:
+            - type: body.contains
+              value: "<title>n8n.io"
+              weight: 100
+              evidence: n8n page title
+            - type: body.contains
+              value: 'name="n8n:config:sentry"'
+              weight: 90
+              evidence: n8n sentry config meta
+    metadata:
+      references: ["https://n8n.io/", "https://github.com/projectdiscovery/nuclei-templates"]
+      confidence: high
+    examples:
+      positive:
+        - body: '<title>n8n.io - Workflow Automation</title>'
+
+  - id: core-lcwf-0002-node-red
+    name: Node-RED
+    category: workflow
+    vendor: Node-RED
+    priority: 82
+    tags: [node-red, workflow, automation, iot, lowcode]
+    match:
+      strategy: any
+      probes:
+        - id: node-red-signals
+          matchers:
+            - type: title.contains
+              value: Node-RED
+              weight: 100
+              evidence: Node-RED dashboard title
+    metadata:
+      references: ["https://nodered.org/", "https://github.com/projectdiscovery/nuclei-templates"]
+      confidence: high
+    examples:
+      positive:
+        - body: '<title>Node-RED</title>'
+
+  - id: core-lcwf-0003-camunda
+    name: Camunda
+    category: workflow
+    vendor: Camunda
+    priority: 82
+    tags: [camunda, bpm, workflow, java]
+    match:
+      strategy: any
+      probes:
+        - id: camunda-signals
+          matchers:
+            - type: body.contains
+              value: "Camunda Welcome"
+              weight: 100
+              evidence: Camunda welcome app marker
+            - type: body.contains
+              value: "cam-widget-footer"
+              weight: 80
+              evidence: Camunda footer widget
+    metadata:
+      references: ["https://camunda.com/", "https://github.com/projectdiscovery/nuclei-templates"]
+      confidence: high
+    examples:
+      positive:
+        - body: '<div>Camunda Welcome</div>'
+
+  - id: core-lcwf-0004-appsmith
+    name: Appsmith
+    category: lowcode
+    vendor: Appsmith
+    priority: 82
+    tags: [appsmith, lowcode, internal-tools]
+    match:
+      strategy: any
+      probes:
+        - id: appsmith-signals
+          matchers:
+            - type: title.contains
+              value: Appsmith
+              weight: 100
+              evidence: Appsmith page title
+    metadata:
+      references: ["https://www.appsmith.com/", "https://github.com/projectdiscovery/nuclei-templates"]
+      confidence: high
+    examples:
+      positive:
+        - body: '<title>Appsmith</title>'

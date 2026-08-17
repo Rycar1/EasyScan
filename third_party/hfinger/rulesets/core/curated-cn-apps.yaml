@@ -1,0 +1,372 @@
+rules:
+  - id: core-cn-0001-ruoyi
+    name: RuoYi 若依
+    category: framework
+    vendor: RuoYi
+    priority: 90
+    tags: [ruoyi, admin, java, framework]
+    match:
+      strategy: any
+      probes:
+        - id: ruoyi-signals
+          matchers:
+            - type: body.contains
+              value: "/ruoyi/css/ry-ui.css"
+              weight: 100
+              evidence: RuoYi bundled UI stylesheet path
+            - type: body.contains
+              value: "/ruoyi/js/ry-ui.js"
+              weight: 100
+              evidence: RuoYi bundled UI script path
+            - type: body.contains
+              value: "若依管理系统"
+              weight: 100
+              evidence: RuoYi console title
+            - type: body.contains
+              value: "RuoYi"
+              weight: 60
+              evidence: RuoYi brand marker
+            - type: body.contains
+              value: "ruoyi.vip"
+              weight: 80
+              evidence: RuoYi official site reference
+            - type: favicon.hash.md5
+              value: "e49fd30ea870c7a820464ca56a113e6e"
+              weight: 100
+              evidence: RuoYi favicon fingerprint
+    metadata:
+      references: ["https://ruoyi.vip/", "https://github.com/0x727/FingerprintHub"]
+      confidence: high
+    examples:
+      positive:
+        - body: '<link href="/ruoyi/css/ry-ui.css">'
+        - body: '<title>若依管理系统</title>'
+
+  - id: core-cn-0002-dedecms
+    name: DedeCMS
+    category: cms
+    vendor: DedeCMS
+    priority: 85
+    tags: [dedecms, cms, php]
+    match:
+      strategy: any
+      probes:
+        - id: dedecms-signals
+          matchers:
+            - type: body.contains
+              value: "Power by DedeCms"
+              weight: 100
+              evidence: DedeCMS footer power-by marker
+            - type: body.contains
+              value: "dedecms.com"
+              weight: 80
+              evidence: DedeCMS official site reference
+            - type: body.contains
+              value: "/templets/default/style/dedecms.css"
+              weight: 100
+              evidence: DedeCMS default template stylesheet
+            - type: body.contains
+              value: "dedeajax2.js"
+              weight: 90
+              evidence: DedeCMS ajax script
+            - type: body.contains
+              value: 'name="dede_fields'
+              weight: 90
+              evidence: DedeCMS form field marker
+    metadata:
+      references: ["https://www.dedecms.com/", "https://github.com/0x727/FingerprintHub"]
+      confidence: high
+    examples:
+      positive:
+        - body: "<a href=http://www.dedecms.com>Power by DedeCms</a>"
+        - body: '<script src="/include/dedeajax2.js"></script>'
+
+  - id: core-cn-0003-phpcms
+    name: PHPCMS
+    category: cms
+    vendor: PHPCMS
+    priority: 85
+    tags: [phpcms, cms, php]
+    match:
+      strategy: any
+      probes:
+        - id: phpcms-signals
+          matchers:
+            - type: body.contains
+              value: "www.phpcms.cn"
+              weight: 100
+              evidence: PHPCMS official site reference
+            - type: body.contains
+              value: "Powered by PHPCMS"
+              weight: 100
+              evidence: PHPCMS power-by marker
+            - type: body.contains
+              value: "/statics/js/common.js"
+              weight: 70
+              evidence: PHPCMS static asset path
+    metadata:
+      references: ["https://github.com/0x727/FingerprintHub"]
+      confidence: high
+    examples:
+      positive:
+        - body: '<a href="http://www.phpcms.cn">PHPCMS</a>'
+
+  - id: core-cn-0004-thinkphp
+    name: ThinkPHP
+    category: framework
+    vendor: ThinkPHP
+    priority: 85
+    tags: [thinkphp, framework, php]
+    match:
+      strategy: any
+      probes:
+        - id: thinkphp-signals
+          matchers:
+            - type: header.contains
+              key: X-Powered-By
+              value: ThinkPHP
+              weight: 100
+              evidence: X-Powered-By reports ThinkPHP
+            - type: body.contains
+              value: "www.thinkphp.cn"
+              weight: 90
+              evidence: ThinkPHP official site reference
+            - type: body.contains
+              value: "thinkphp_show_page_trace"
+              weight: 90
+              evidence: ThinkPHP trace panel marker
+            - type: body.contains
+              value: "系统发生错误"
+              weight: 60
+              evidence: ThinkPHP default error page title
+            - type: favicon.hash.md5
+              value: "f49c4a4bde1eec6c0b80c2277c76e3db"
+              weight: 100
+              evidence: ThinkPHP favicon fingerprint
+    metadata:
+      references: ["https://www.thinkphp.cn/", "https://github.com/0x727/FingerprintHub"]
+      confidence: high
+    examples:
+      positive:
+        - header: {X-Powered-By: "ThinkPHP"}
+        - body: '<title>系统发生错误</title><div>ThinkPHP V5</div>'
+
+  - id: core-cn-0005-tongda
+    name: Tongda 通达 OA
+    category: oa
+    vendor: Tongda
+    priority: 85
+    tags: [tongda, oa, php]
+    match:
+      strategy: any
+      probes:
+        - id: tongda-signals
+          matchers:
+            - type: body.contains
+              value: "Office Anywhere"
+              weight: 100
+              evidence: Tongda Office Anywhere product string
+            - type: body.contains
+              value: "tongda2000.com"
+              weight: 100
+              evidence: Tongda official site reference
+            - type: body.contains
+              value: "/images/tongda.ico"
+              weight: 90
+              evidence: Tongda favicon reference
+            - type: body.contains
+              value: "/static/templates/2013_01/index.css"
+              weight: 90
+              evidence: Tongda template stylesheet
+    metadata:
+      references: ["https://www.tongda2000.com/", "https://github.com/0x727/FingerprintHub"]
+      confidence: high
+    examples:
+      positive:
+        - body: '<title>Office Anywhere 网络智能办公系统</title>'
+        - body: '<link rel="shortcut icon" href="/images/tongda.ico" />'
+
+  - id: core-cn-0006-seeyon
+    name: Seeyon 致远 OA
+    category: oa
+    vendor: Seeyon
+    priority: 85
+    tags: [seeyon, oa, java]
+    match:
+      strategy: any
+      probes:
+        - id: seeyon-signals
+          matchers:
+            - type: body.contains
+              value: "_ctxPath = '/seeyon'"
+              weight: 100
+              evidence: Seeyon JS context path variable
+            - type: body.contains
+              value: "seeyonProductID"
+              weight: 100
+              evidence: Seeyon product id marker
+            - type: body.contains
+              value: "/seeyon/main.do"
+              weight: 100
+              evidence: Seeyon main entry path
+            - type: body.contains
+              value: "/seeyon/rest"
+              weight: 90
+              evidence: Seeyon REST API path
+            - type: body.contains
+              value: "致远A8"
+              weight: 90
+              evidence: Seeyon A8 brand
+            - type: body.contains
+              value: "A8-V5"
+              weight: 80
+              evidence: Seeyon A8-V5 product marker
+    metadata:
+      references: ["https://www.seeyon.com/", "https://github.com/0x727/FingerprintHub"]
+      confidence: high
+    examples:
+      positive:
+        - body: "<title>致远A8协同管理软件</title>"
+        - body: "var _ctxPath = '/seeyon'"
+
+  - id: core-cn-0007-joomla
+    name: Joomla
+    category: cms
+    vendor: Joomla
+    priority: 85
+    tags: [joomla, cms, php]
+    match:
+      strategy: any
+      probes:
+        - id: joomla-signals
+          matchers:
+            - type: body.regex
+              value: 'content="Joomla'
+              weight: 100
+              evidence: Joomla generator meta tag
+            - type: body.contains
+              value: "/media/system/js/core.js"
+              weight: 90
+              evidence: Joomla core system script
+            - type: body.contains
+              value: "/media/jui/js/"
+              weight: 80
+              evidence: Joomla JUI asset path
+            - type: body.contains
+              value: "option=com_"
+              weight: 60
+              evidence: Joomla component query marker
+    metadata:
+      references: ["https://www.joomla.org/", "https://github.com/0x727/FingerprintHub"]
+      confidence: high
+    examples:
+      positive:
+        - body: '<meta name="generator" content="Joomla! - Open Source Content Management" />'
+        - body: '<script src="/media/system/js/core.js"></script>'
+
+  - id: core-cn-0008-nacos
+    name: Nacos
+    category: middleware
+    vendor: Alibaba
+    priority: 88
+    tags: [nacos, middleware, java]
+    match:
+      strategy: any
+      probes:
+        - id: nacos-passive
+          matchers:
+            - type: title.contains
+              value: Nacos
+              weight: 100
+              evidence: Nacos console title
+            - type: body.contains
+              value: "console-ui/public"
+              weight: 90
+              evidence: Nacos console asset path
+            - type: body.contains
+              value: "console-fe/public"
+              weight: 90
+              evidence: Nacos console frontend asset path
+    metadata:
+      references: ["https://nacos.io/", "https://github.com/0x727/FingerprintHub"]
+      confidence: high
+    examples:
+      positive:
+        - body: '<title>Nacos</title><script src="console-ui/public/js/merge.js"></script>'
+
+  - id: core-cn-0009-tomcat
+    name: Apache Tomcat
+    category: middleware
+    vendor: Apache
+    priority: 82
+    tags: [tomcat, middleware, java]
+    match:
+      strategy: any
+      probes:
+        - id: tomcat-passive
+          matchers:
+            - type: body.contains
+              value: "Apache Tomcat/"
+              weight: 100
+              evidence: Apache Tomcat version banner
+            - type: body.contains
+              value: "this is the default Tomcat home page"
+              weight: 100
+              evidence: Tomcat default home page marker
+            - type: header.regex
+              key: Server
+              value: (?i)apache-coyote
+              weight: 90
+              evidence: Apache Coyote server banner
+            - type: header.contains
+              key: X-Powered-By
+              value: Tomcat
+              weight: 90
+              evidence: X-Powered-By reports Tomcat
+    metadata:
+      references: ["https://tomcat.apache.org/", "https://github.com/0x727/FingerprintHub"]
+      confidence: high
+    examples:
+      positive:
+        - body: '<h3>Apache Tomcat/9.0.71</h3>'
+        - header: {Server: "Apache-Coyote/1.1"}
+
+  - id: core-cn-0010-gitlab
+    name: GitLab
+    category: devops
+    vendor: GitLab
+    priority: 88
+    tags: [gitlab, scm, devops]
+    match:
+      strategy: any
+      probes:
+        - id: gitlab-passive
+          matchers:
+            - type: cookie.contains
+              value: _gitlab_session=
+              weight: 100
+              evidence: GitLab session cookie
+            - type: body.regex
+              value: 'content="GitLab'
+              weight: 100
+              evidence: GitLab meta content marker
+            - type: body.contains
+              value: "gon.gitlab_url"
+              weight: 90
+              evidence: GitLab runtime config marker
+            - type: body.contains
+              value: "assets/gitlab_logo"
+              weight: 80
+              evidence: GitLab logo asset marker
+            - type: body.contains
+              value: "navbar-gitlab"
+              weight: 80
+              evidence: GitLab navbar marker
+    metadata:
+      references: ["https://about.gitlab.com/", "https://github.com/0x727/FingerprintHub"]
+      confidence: high
+    examples:
+      positive:
+        - header: {Set-Cookie: "_gitlab_session=abc; path=/"}
+        - body: '<meta content="GitLab" property="og:site_name">'
+

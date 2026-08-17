@@ -1,0 +1,107 @@
+features:
+    active.basic_auth_check: true
+    active.port_scan: true
+    active.web_crawl: true
+    active.web_crawl_headless: true
+    active.xss_reflection_probe: true
+    desktop.clear_previous_results_on_start: true
+    passive.ai_analysis: false
+    passive.ai_analysis.routes: false
+    passive.ai_analysis.secrets: false
+    passive.ai_fingerprint: true
+    passive.ai_insight: false
+    passive.ai_secret_context: false
+    passive.ai_traffic_anomaly: true
+    passive.cdn_detection: true
+    passive.fastjson_probe: false
+    passive.file_probe: true
+    passive.file_probe.backup: true
+    passive.file_probe.custom: true
+    passive.file_probe.database_dump: true
+    passive.file_probe.ds_store: true
+    passive.file_probe.environment: true
+    passive.file_probe.git: true
+    passive.file_probe.idea: true
+    passive.file_probe.springboot: true
+    passive.file_probe.svn: true
+    passive.file_probe.swagger: true
+    passive.hfinger: true
+    passive.poc_scan: true
+    passive.sensitive_info: false
+    passive.sensitive_info.aliyun_access_key: false
+    passive.sensitive_info.application_secret: false
+    passive.sensitive_info.aws_access_key: false
+    passive.sensitive_info.database_dsn: true
+    passive.sensitive_info.email: true
+    passive.sensitive_info.github_token: true
+    passive.sensitive_info.google_api_key: true
+    passive.sensitive_info.jwt: true
+    passive.sensitive_info.phone: true
+    passive.sensitive_info.private_key: true
+    passive.sensitive_info.slack_token: true
+    passive.sensitive_info.stack_trace: true
+    passive.sensitive_info.stripe_key: true
+    passive.shiro_probe: false
+    passive.sqli_probe: true
+    passive.waf_probe: true
+    passive.xss_probe: true
+passive_sqli_error_enabled: true
+passive_sqli_boolean_enabled: true
+passive_sqli_time_enabled: true
+passive_sqli_probe_qps: 20
+passive_sqli_max_requests: 200
+passive_sqli_max_parameters: 20
+passive_xss_probe_qps: 2
+passive_xss_max_requests: 24
+passive_xss_max_parameters: 3
+passive_poc_qps: 2
+passive_poc_concurrency: 1
+passive_file_probe_qps: 20
+passive_file_probe_max_prefixes_per_origin: 8
+passive_fastjson_probe_qps: 1
+passive_shiro_probe_qps: 1
+shiro_keys: []
+excluded_domains:
+    - '*.google.com'
+    - '*.googleapis.com'
+excluded_suffixes:
+    - .aac
+    - .avi
+    - .bmp
+    - .css
+    - .doc
+    - .docx
+    - .flv
+    - .gif
+    - .ico
+    - .jpeg
+    - .jpg
+    - .mp3
+    - .mp4
+    - .ogg
+    - .pdf
+    - .png
+    - .ppt
+    - .pptx
+    - .svg
+    - .woff
+    - .woff2
+excluded_content_types:
+    - '*zip'
+    - application/msword
+    - application/ogg
+    - application/pdf
+    - application/x-ico
+    - application/x-ppt
+    - audio/*
+    - image/*
+    - video/*
+    - video/avi
+excluded_paths: []
+excluded_query_parameters: []
+excluded_post_parameters: []
+file_probe_excluded_paths: []
+file_probe_custom_paths: []
+ai_base_url: https://api.deepseek.com
+ai_model: deepseek-v4-flash
+ai_api_key: sk_kfccrazythursdayvivofiftydollar

@@ -1,0 +1,224 @@
+rules:
+    - id: builtin-0075
+      name: Apache-Shiro
+      category: framework
+      tags:
+        - migrated
+        - framework
+      match:
+        strategy: all
+        probes:
+            - id: default
+              matchers:
+                - type: header.contains
+                  value: rememberMe=
+                  weight: 100
+                  evidence: Migrated HTTP header evidence for Apache-Shiro
+      metadata:
+        references:
+            - builtin:migrated-legacy-rule
+        confidence: medium
+
+    - id: builtin-0076
+      name: Dreamer CMS-Shiro
+      category: framework
+      tags:
+        - migrated
+        - framework
+      match:
+        strategy: all
+        probes:
+            - id: default
+              matchers:
+                - type: header.contains
+                  value: dreamer-
+                  weight: 100
+                  evidence: Migrated HTTP header evidence for Dreamer CMS-Shiro
+      metadata:
+        references:
+            - builtin:migrated-legacy-rule
+        confidence: medium
+
+    - id: builtin-0189
+      name: Spring Boot
+      category: framework
+      tags:
+        - migrated
+        - framework
+      match:
+        strategy: all
+        probes:
+            - id: default
+              matchers:
+                - type: favicon.hash
+                  value: "116323821"
+                  weight: 100
+                  evidence: Migrated favicon hash evidence for Spring Boot
+      metadata:
+        references:
+            - builtin:migrated-legacy-rule
+        confidence: medium
+
+    - id: builtin-0254
+      name: Apache Tomcat
+      category: framework
+      tags:
+        - migrated
+        - framework
+      match:
+        strategy: all
+        probes:
+            - id: default
+              matchers:
+                - type: favicon.hash
+                  value: "-297069493"
+                  weight: 100
+                  evidence: Migrated favicon hash evidence for Apache Tomcat
+      metadata:
+        references:
+            - builtin:migrated-legacy-rule
+        confidence: medium
+
+    - id: builtin-0256
+      name: Apache Tomcat
+      category: framework
+      tags:
+        - migrated
+        - framework
+      match:
+        strategy: any
+        probes:
+            - id: default
+              matchers:
+                - type: header.contains
+                  value: Apache-Coyote
+                  weight: 100
+                  evidence: Migrated HTTP header evidence for Apache Tomcat
+      metadata:
+        references:
+            - builtin:migrated-legacy-rule
+        confidence: medium
+
+    - id: builtin-0342
+      name: Wildfly
+      category: framework
+      tags:
+        - migrated
+        - framework
+      match:
+        strategy: all
+        probes:
+            - id: default
+              matchers:
+                - type: favicon.hash
+                  value: "-1666561833"
+                  weight: 100
+                  evidence: Migrated favicon hash evidence for Wildfly
+      metadata:
+        references:
+            - builtin:migrated-legacy-rule
+        confidence: medium
+
+    - id: builtin-0431
+      name: JBoss Application Server 7
+      category: framework
+      tags:
+        - migrated
+        - framework
+      match:
+        strategy: all
+        probes:
+            - id: default
+              matchers:
+                - type: favicon.hash
+                  value: "937999361"
+                  weight: 100
+                  evidence: Migrated favicon hash evidence for JBoss Application Server 7
+      metadata:
+        references:
+            - builtin:migrated-legacy-rule
+        confidence: medium
+
+    - id: builtin-0439
+      name: Jboss
+      category: framework
+      tags:
+        - migrated
+        - framework
+      match:
+        strategy: all
+        probes:
+            - id: default
+              matchers:
+                - type: favicon.hash
+                  value: "-656811182"
+                  weight: 100
+                  evidence: Migrated favicon hash evidence for Jboss
+      metadata:
+        references:
+            - builtin:migrated-legacy-rule
+        confidence: medium
+
+    - id: builtin-1031
+      name: Spring Boot Admin
+      category: framework
+      tags:
+        - migrated
+        - framework
+      match:
+        strategy: any
+        probes:
+            - id: default
+              matchers:
+                - type: favicon.hash
+                  value: "-1136755742"
+                  weight: 100
+                  evidence: Migrated favicon hash evidence for Spring Boot Admin
+                - type: favicon.hash
+                  value: "746379308"
+                  weight: 100
+                  evidence: Migrated favicon hash evidence for Spring Boot Admin
+      metadata:
+        references:
+            - builtin:migrated-legacy-rule
+        confidence: medium
+
+    - id: builtin-1603
+      name: ASP.NET
+      category: framework
+      tags:
+        - migrated
+        - framework
+      match:
+        strategy: any
+        probes:
+            - id: default
+              matchers:
+                - type: header.contains
+                  value: ASP.NET
+                  weight: 100
+                  evidence: Migrated HTTP header evidence for ASP.NET
+      metadata:
+        references:
+            - builtin:migrated-legacy-rule
+        confidence: medium
+
+    - id: builtin-1604
+      name: Java
+      category: framework
+      tags:
+        - migrated
+        - framework
+      match:
+        strategy: any
+        probes:
+            - id: default
+              matchers:
+                - type: header.contains
+                  value: Java
+                  weight: 100
+                  evidence: Migrated HTTP header evidence for Java
+      metadata:
+        references:
+            - builtin:migrated-legacy-rule
+        confidence: medium

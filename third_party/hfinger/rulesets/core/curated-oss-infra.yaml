@@ -1,0 +1,479 @@
+rules:
+  - id: core-oss-0001-solr
+    name: Apache Solr
+    category: middleware
+    vendor: Apache
+    priority: 82
+    tags: [solr, search, middleware, java]
+    match:
+      strategy: any
+      probes:
+        - id: solr-signals
+          matchers:
+            - type: header.contains
+              key: Location
+              value: /solr/
+              weight: 90
+              evidence: Solr admin redirect
+            - type: body.contains
+              value: "Solr Admin"
+              weight: 90
+              evidence: Solr admin UI title
+            - type: body.contains
+              value: '"solr-impl-version"'
+              weight: 80
+              evidence: Solr system info key
+    metadata:
+      references: ["https://solr.apache.org/", "https://github.com/0x727/FingerprintHub"]
+      confidence: medium
+    examples:
+      positive:
+        - header: {Location: "/solr/"}
+
+  - id: core-oss-0002-flink
+    name: Apache Flink
+    category: middleware
+    vendor: Apache
+    priority: 82
+    tags: [flink, streaming, middleware, java]
+    match:
+      strategy: any
+      probes:
+        - id: flink-signals
+          matchers:
+            - type: title.contains
+              value: Apache Flink Web Dashboard
+              weight: 100
+              evidence: Flink dashboard title
+            - type: body.contains
+              value: "images/flink-logo.png"
+              weight: 90
+              evidence: Flink logo asset
+    metadata:
+      references: ["https://flink.apache.org/", "https://github.com/0x727/FingerprintHub"]
+      confidence: high
+    examples:
+      positive:
+        - body: '<title>Apache Flink Web Dashboard</title>'
+
+  - id: core-oss-0003-superset
+    name: Apache Superset
+    category: bi
+    vendor: Apache
+    priority: 82
+    tags: [superset, bi, python]
+    match:
+      strategy: any
+      probes:
+        - id: superset-signals
+          matchers:
+            - type: body.contains
+              value: "/static/assets/images/superset-logo"
+              weight: 100
+              evidence: Superset logo asset
+            - type: body.contains
+              value: "appbuilder"
+              weight: 40
+              evidence: Superset flask-appbuilder marker
+            - type: title.contains
+              value: Superset
+              weight: 70
+              evidence: Superset page title
+    metadata:
+      references: ["https://superset.apache.org/", "https://github.com/0x727/FingerprintHub"]
+      confidence: medium
+    examples:
+      positive:
+        - body: '<img src="/static/assets/images/superset-logo-horiz.png">'
+
+  - id: core-oss-0004-nifi
+    name: Apache NiFi
+    category: middleware
+    vendor: Apache
+    priority: 80
+    tags: [nifi, dataflow, middleware, java]
+    match:
+      strategy: any
+      probes:
+        - id: nifi-signals
+          matchers:
+            - type: body.contains
+              value: 'href="/nifi/"'
+              weight: 90
+              evidence: NiFi UI link
+            - type: title.contains
+              value: NiFi
+              weight: 70
+              evidence: NiFi page title
+    metadata:
+      references: ["https://nifi.apache.org/", "https://github.com/0x727/FingerprintHub"]
+      confidence: medium
+    examples:
+      positive:
+        - body: '<a href="/nifi/">/nifi</a>'
+
+  - id: core-oss-0005-apisix-dashboard
+    name: Apache APISIX Dashboard
+    category: gateway
+    vendor: Apache
+    priority: 82
+    tags: [apisix, gateway, api]
+    match:
+      strategy: any
+      probes:
+        - id: apisix-signals
+          matchers:
+            - type: header.regex
+              key: Server
+              value: (?i)^apisix
+              weight: 100
+              evidence: APISIX server banner
+            - type: title.contains
+              value: Apache APISIX Dashboard
+              weight: 100
+              evidence: APISIX dashboard title
+            - type: body.contains
+              value: '{"error_msg":"404 Route Not Found"}'
+              weight: 80
+              evidence: APISIX route-not-found body
+    metadata:
+      references: ["https://apisix.apache.org/", "https://github.com/0x727/FingerprintHub"]
+      confidence: high
+    examples:
+      positive:
+        - header: {Server: "APISIX/3.2.0"}
+
+  - id: core-oss-0006-kong
+    name: Kong Gateway
+    category: gateway
+    vendor: Kong
+    priority: 82
+    tags: [kong, gateway, api]
+    match:
+      strategy: any
+      probes:
+        - id: kong-signals
+          matchers:
+            - type: header.regex
+              key: Server
+              value: (?i)^kong
+              weight: 100
+              evidence: Kong server banner
+            - type: header.contains
+              key: Via
+              value: kong
+              weight: 90
+              evidence: Kong Via header
+            - type: header.contains
+              key: X-Kong-Response-Latency
+              weight: 90
+              evidence: Kong response latency header
+    metadata:
+      references: ["https://konghq.com/", "https://github.com/0x727/FingerprintHub"]
+      confidence: high
+    examples:
+      positive:
+        - header: {Server: "kong/3.4.0"}
+
+  - id: core-oss-0007-portainer
+    name: Portainer
+    category: devops
+    vendor: Portainer
+    priority: 82
+    tags: [portainer, docker, devops]
+    match:
+      strategy: any
+      probes:
+        - id: portainer-signals
+          matchers:
+            - type: body.contains
+              value: 'ng-app="portainer"'
+              weight: 100
+              evidence: Portainer Angular app marker
+            - type: title.contains
+              value: Portainer
+              weight: 80
+              evidence: Portainer page title
+    metadata:
+      references: ["https://www.portainer.io/", "https://github.com/0x727/FingerprintHub"]
+      confidence: high
+    examples:
+      positive:
+        - body: '<body ng-app="portainer">'
+
+  - id: core-oss-0008-nexus
+    name: Nexus Repository Manager
+    category: devops
+    vendor: Sonatype
+    priority: 82
+    tags: [nexus, repository, devops, java]
+    match:
+      strategy: any
+      probes:
+        - id: nexus-signals
+          matchers:
+            - type: title.contains
+              value: Nexus Repository Manager
+              weight: 100
+              evidence: Nexus page title
+            - type: header.contains
+              key: Server
+              value: Nexus
+              weight: 80
+              evidence: Nexus server banner
+    metadata:
+      references: ["https://www.sonatype.com/products/nexus-repository", "https://github.com/0x727/FingerprintHub"]
+      confidence: high
+    examples:
+      positive:
+        - body: '<title>Nexus Repository Manager</title>'
+
+  - id: core-oss-0009-metabase
+    name: Metabase
+    category: bi
+    vendor: Metabase
+    priority: 80
+    tags: [metabase, bi, analytics]
+    match:
+      strategy: any
+      probes:
+        - id: metabase-signals
+          matchers:
+            - type: body.contains
+              value: "_metabaseBootstrap"
+              weight: 100
+              evidence: Metabase bootstrap variable
+            - type: body.contains
+              value: "_metabaseLocalization"
+              weight: 90
+              evidence: Metabase localization variable
+    metadata:
+      references: ["https://www.metabase.com/", "https://github.com/0x727/FingerprintHub"]
+      confidence: high
+    examples:
+      positive:
+        - body: '<script>window._metabaseBootstrap={}</script>'
+
+  - id: core-oss-0010-rocketmq-console
+    name: RocketMQ Console
+    category: middleware
+    vendor: Apache
+    priority: 80
+    tags: [rocketmq, mq, middleware]
+    match:
+      strategy: any
+      probes:
+        - id: rocketmq-signals
+          matchers:
+            - type: title.contains
+              value: RocketMq-console
+              weight: 100
+              evidence: RocketMQ console title
+            - type: header.regex
+              key: WWW-Authenticate
+              value: (?i)realm="rocketmq"
+              weight: 90
+              evidence: RocketMQ basic-auth realm
+    metadata:
+      references: ["https://rocketmq.apache.org/", "https://github.com/0x727/FingerprintHub"]
+      confidence: high
+    examples:
+      positive:
+        - body: '<title>RocketMq-console-ng</title>'
+
+  - id: core-oss-0011-sentinel-dashboard
+    name: Sentinel Dashboard
+    category: middleware
+    vendor: Alibaba
+    priority: 80
+    tags: [sentinel, flow-control, middleware, java]
+    match:
+      strategy: any
+      probes:
+        - id: sentinel-signals
+          matchers:
+            - type: body.contains
+              value: 'ng-app="sentinelDashboardApp"'
+              weight: 100
+              evidence: Sentinel dashboard Angular app marker
+    metadata:
+      references: ["https://sentinelguard.io/", "https://github.com/0x727/FingerprintHub"]
+      confidence: high
+    examples:
+      positive:
+        - body: '<html ng-app="sentinelDashboardApp">'
+
+  - id: core-oss-0012-dubbo-admin
+    name: Dubbo Admin
+    category: middleware
+    vendor: Apache
+    priority: 78
+    tags: [dubbo, rpc, middleware, java]
+    match:
+      strategy: any
+      probes:
+        - id: dubbo-signals
+          matchers:
+            - type: header.regex
+              key: WWW-Authenticate
+              value: (?i)realm="dubbo"
+              weight: 100
+              evidence: Dubbo basic-auth realm
+    metadata:
+      references: ["https://dubbo.apache.org/", "https://github.com/0x727/FingerprintHub"]
+      confidence: medium
+    examples:
+      positive:
+        - header: {WWW-Authenticate: 'Basic realm="dubbo"'}
+
+  - id: core-oss-0013-pgadmin
+    name: pgAdmin
+    category: database-tool
+    vendor: pgAdmin
+    priority: 78
+    tags: [pgadmin, postgres, database]
+    match:
+      strategy: any
+      probes:
+        - id: pgadmin-signals
+          matchers:
+            - type: cookie.contains
+              value: pga4_session
+              weight: 100
+              evidence: pgAdmin4 session cookie
+            - type: title.contains
+              value: pgAdmin
+              weight: 80
+              evidence: pgAdmin page title
+    metadata:
+      references: ["https://www.pgadmin.org/", "https://github.com/0x727/FingerprintHub"]
+      confidence: medium
+    examples:
+      positive:
+        - header: {Set-Cookie: "pga4_session=abc; path=/"}
+
+  - id: core-oss-0014-phppgadmin
+    name: phpPgAdmin
+    category: database-tool
+    vendor: phpPgAdmin
+    priority: 76
+    tags: [phppgadmin, postgres, database, php]
+    match:
+      strategy: any
+      probes:
+        - id: phppgadmin-signals
+          matchers:
+            - type: body.contains
+              value: 'class="appname">phpPgAdmin'
+              weight: 100
+              evidence: phpPgAdmin app name element
+    metadata:
+      references: ["https://github.com/0x727/FingerprintHub"]
+      confidence: medium
+    examples:
+      positive:
+        - body: '<span class="appname">phpPgAdmin</span>'
+
+  - id: core-oss-0015-adminer
+    name: Adminer
+    category: database-tool
+    vendor: Adminer
+    priority: 76
+    tags: [adminer, database, php]
+    match:
+      strategy: any
+      probes:
+        - id: adminer-signals
+          matchers:
+            - type: body.contains
+              value: "://www.adminer.org/"
+              weight: 100
+              evidence: Adminer official site link
+            - type: title.contains
+              value: Adminer
+              weight: 70
+              evidence: Adminer page title
+    metadata:
+      references: ["https://www.adminer.org/", "https://github.com/0x727/FingerprintHub"]
+      confidence: medium
+    examples:
+      positive:
+        - body: '<a href="https://www.adminer.org/">Adminer</a>'
+
+  - id: core-oss-0016-zipkin
+    name: Zipkin
+    category: observability
+    vendor: OpenZipkin
+    priority: 78
+    tags: [zipkin, tracing, observability]
+    match:
+      strategy: any
+      probes:
+        - id: zipkin-signals
+          matchers:
+            - type: body.contains
+              value: '<base href="/zipkin/">'
+              weight: 100
+              evidence: Zipkin base href marker
+    metadata:
+      references: ["https://zipkin.io/", "https://github.com/0x727/FingerprintHub"]
+      confidence: high
+    examples:
+      positive:
+        - body: '<base href="/zipkin/">'
+
+  - id: core-oss-0017-jupyterhub
+    name: JupyterHub
+    category: platform
+    vendor: Project Jupyter
+    priority: 78
+    tags: [jupyter, jupyterhub, python]
+    match:
+      strategy: any
+      probes:
+        - id: jupyterhub-signals
+          matchers:
+            - type: title.contains
+              value: JupyterHub
+              weight: 100
+              evidence: JupyterHub page title
+            - type: title.contains
+              value: Jupyter Notebook
+              weight: 90
+              evidence: Jupyter Notebook page title
+            - type: body.contains
+              value: 'id="ipython-main-app"'
+              weight: 80
+              evidence: IPython main app container
+    metadata:
+      references: ["https://jupyter.org/hub", "https://github.com/0x727/FingerprintHub"]
+      confidence: high
+    examples:
+      positive:
+        - body: '<title>JupyterHub</title>'
+
+  - id: core-oss-0018-rancher
+    name: Rancher
+    category: platform
+    vendor: SUSE
+    priority: 80
+    tags: [rancher, kubernetes, devops]
+    match:
+      strategy: any
+      probes:
+        - id: rancher-signals
+          matchers:
+            - type: cookie.contains
+              value: R_SESS
+              weight: 100
+              evidence: Rancher session cookie
+            - type: body.contains
+              value: "dashboard/_nuxt"
+              weight: 60
+              evidence: Rancher dashboard asset marker
+    metadata:
+      references: ["https://www.rancher.com/", "https://github.com/0x727/FingerprintHub"]
+      confidence: medium
+    examples:
+      positive:
+        - header: {Set-Cookie: "R_SESS=abc; path=/"}

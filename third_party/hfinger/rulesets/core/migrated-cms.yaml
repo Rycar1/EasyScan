@@ -1,0 +1,756 @@
+rules:
+    - id: builtin-0068
+      name: PbootCMS
+      category: cms
+      tags:
+        - migrated
+        - cms
+      match:
+        strategy: all
+        probes:
+            - id: default
+              matchers:
+                - type: header.contains
+                  value: PbootSystem
+                  weight: 100
+                  evidence: Migrated HTTP header evidence for PbootCMS
+                - type: header.contains
+                  value: PbootCMS
+                  weight: 100
+                  evidence: Migrated HTTP header evidence for PbootCMS
+      metadata:
+        references:
+            - builtin:migrated-legacy-rule
+        confidence: medium
+
+    - id: builtin-0077
+      name: Dreamer CMS
+      category: cms
+      tags:
+        - migrated
+        - cms
+      match:
+        strategy: all
+        probes:
+            - id: default
+              matchers:
+                - type: favicon.hash
+                  value: "-748565678"
+                  weight: 100
+                  evidence: Migrated favicon hash evidence for Dreamer CMS
+      metadata:
+        references:
+            - builtin:migrated-legacy-rule
+        confidence: medium
+
+    - id: builtin-0419
+      name: Drupal
+      category: cms
+      tags:
+        - migrated
+        - cms
+      match:
+        strategy: all
+        probes:
+            - id: default
+              matchers:
+                - type: favicon.hash
+                  value: "-167656799"
+                  weight: 100
+                  evidence: Migrated favicon hash evidence for Drupal
+      metadata:
+        references:
+            - builtin:migrated-legacy-rule
+        confidence: medium
+
+    - id: builtin-0444
+      name: Ghost (CMS)
+      category: cms
+      tags:
+        - migrated
+        - cms
+      match:
+        strategy: all
+        probes:
+            - id: default
+              matchers:
+                - type: favicon.hash
+                  value: "-1015932800"
+                  weight: 100
+                  evidence: Migrated favicon hash evidence for Ghost (CMS)
+      metadata:
+        references:
+            - builtin:migrated-legacy-rule
+        confidence: medium
+
+    - id: builtin-0467
+      name: Joomla
+      category: cms
+      tags:
+        - migrated
+        - cms
+      match:
+        strategy: any
+        probes:
+            - id: default
+              matchers:
+                - type: favicon.hash
+                  value: "1627330242"
+                  weight: 100
+                  evidence: Migrated favicon hash evidence for Joomla
+                - type: favicon.hash
+                  value: "1747282642"
+                  weight: 100
+                  evidence: Migrated favicon hash evidence for Joomla
+      metadata:
+        references:
+            - builtin:migrated-legacy-rule
+        confidence: medium
+
+    - id: builtin-0488
+      name: Joomla
+      category: cms
+      tags:
+        - migrated
+        - cms
+      match:
+        strategy: all
+        probes:
+            - id: default
+              matchers:
+                - type: favicon.hash
+                  value: "-1950415971"
+                  weight: 100
+                  evidence: Migrated favicon hash evidence for Joomla
+      metadata:
+        references:
+            - builtin:migrated-legacy-rule
+        confidence: medium
+
+    - id: builtin-0529
+      name: Joomla
+      category: cms
+      tags:
+        - migrated
+        - cms
+      match:
+        strategy: all
+        probes:
+            - id: default
+              matchers:
+                - type: favicon.hash
+                  value: "366524387"
+                  weight: 100
+                  evidence: Migrated favicon hash evidence for Joomla
+      metadata:
+        references:
+            - builtin:migrated-legacy-rule
+        confidence: medium
+
+    - id: builtin-0633
+      name: Wordpress Under Construction Icon
+      category: cms
+      tags:
+        - migrated
+        - cms
+      match:
+        strategy: all
+        probes:
+            - id: default
+              matchers:
+                - type: favicon.hash
+                  value: "191654058"
+                  weight: 100
+                  evidence: Migrated favicon hash evidence for Wordpress Under Construction Icon
+      metadata:
+        references:
+            - builtin:migrated-legacy-rule
+        confidence: medium
+
+    - id: builtin-0637
+      name: Drupal
+      category: cms
+      tags:
+        - migrated
+        - cms
+      match:
+        strategy: all
+        probes:
+            - id: default
+              matchers:
+                - type: favicon.hash
+                  value: "1174841451"
+                  weight: 100
+                  evidence: Migrated favicon hash evidence for Drupal
+      metadata:
+        references:
+            - builtin:migrated-legacy-rule
+        confidence: medium
+
+    - id: builtin-0660
+      name: Ghost (CMS)
+      category: cms
+      tags:
+        - migrated
+        - cms
+      match:
+        strategy: all
+        probes:
+            - id: default
+              matchers:
+                - type: favicon.hash
+                  value: "-1231681737"
+                  weight: 100
+                  evidence: Migrated favicon hash evidence for Ghost (CMS)
+      metadata:
+        references:
+            - builtin:migrated-legacy-rule
+        confidence: medium
+
+    - id: builtin-0677
+      name: DNN (CMS)
+      category: cms
+      tags:
+        - migrated
+        - cms
+      match:
+        strategy: all
+        probes:
+            - id: default
+              matchers:
+                - type: favicon.hash
+                  value: "-1465479343"
+                  weight: 100
+                  evidence: Migrated favicon hash evidence for DNN (CMS)
+      metadata:
+        references:
+            - builtin:migrated-legacy-rule
+        confidence: medium
+
+    - id: builtin-0705
+      name: 骑士 74CMS
+      category: cms
+      tags:
+        - migrated
+        - cms
+      match:
+        strategy: any
+        probes:
+            - id: default
+              matchers:
+                - type: header.contains
+                  value: QSCMS
+                  weight: 100
+                  evidence: Migrated HTTP header evidence for 骑士 74CMS
+      metadata:
+        references:
+            - builtin:migrated-legacy-rule
+        confidence: medium
+
+    - id: builtin-0863
+      name: Drupal
+      category: cms
+      tags:
+        - migrated
+        - cms
+      match:
+        strategy: all
+        probes:
+            - id: default
+              matchers:
+                - type: header.contains
+                  value: Drupal
+                  weight: 100
+                  evidence: Migrated HTTP header evidence for Drupal
+      metadata:
+        references:
+            - builtin:migrated-legacy-rule
+        confidence: medium
+
+    - id: builtin-1132
+      name: Nucleus-CMS
+      category: cms
+      tags:
+        - migrated
+        - cms
+      match:
+        strategy: any
+        probes:
+            - id: default
+              matchers:
+                - type: header.contains
+                  value: Nucleus CMS
+                  weight: 100
+                  evidence: Migrated HTTP header evidence for Nucleus-CMS
+      metadata:
+        references:
+            - builtin:migrated-legacy-rule
+        confidence: medium
+
+    - id: builtin-1145
+      name: Subrion-CMS
+      category: cms
+      tags:
+        - migrated
+        - cms
+      match:
+        strategy: any
+        probes:
+            - id: default
+              matchers:
+                - type: header.contains
+                  value: Subrion CMS
+                  weight: 100
+                  evidence: Migrated HTTP header evidence for Subrion-CMS
+      metadata:
+        references:
+            - builtin:migrated-legacy-rule
+        confidence: medium
+
+    - id: builtin-1159
+      name: semcms外贸网站(多语言版)
+      category: cms
+      tags:
+        - migrated
+        - cms
+      match:
+        strategy: any
+        probes:
+            - id: default
+              matchers:
+                - type: header.contains
+                  value: semcms外贸网站(多语言版)
+                  weight: 100
+                  evidence: Migrated HTTP header evidence for semcms外贸网站(多语言版)
+      metadata:
+        references:
+            - builtin:migrated-legacy-rule
+        confidence: medium
+
+    - id: builtin-1169
+      name: Fidion-CMS
+      category: cms
+      tags:
+        - migrated
+        - cms
+      match:
+        strategy: any
+        probes:
+            - id: default
+              matchers:
+                - type: header.contains
+                  value: X-Fcms-Cache
+                  weight: 100
+                  evidence: Migrated HTTP header evidence for Fidion-CMS
+                - type: header.contains
+                  value: fCMS
+                  weight: 100
+                  evidence: Migrated HTTP header evidence for Fidion-CMS
+      metadata:
+        references:
+            - builtin:migrated-legacy-rule
+        confidence: medium
+
+    - id: builtin-1176
+      name: BrowserCMS
+      category: cms
+      tags:
+        - migrated
+        - cms
+      match:
+        strategy: any
+        probes:
+            - id: default
+              matchers:
+                - type: header.contains
+                  value: _bzh_web_app_session
+                  weight: 100
+                  evidence: Migrated HTTP header evidence for BrowserCMS
+      metadata:
+        references:
+            - builtin:migrated-legacy-rule
+        confidence: medium
+
+    - id: builtin-1181
+      name: CreateLive-Cms
+      category: cms
+      tags:
+        - migrated
+        - cms
+      match:
+        strategy: any
+        probes:
+            - id: default
+              matchers:
+                - type: header.contains
+                  value: AspooKill=kill=
+                  weight: 100
+                  evidence: Migrated HTTP header evidence for CreateLive-Cms
+      metadata:
+        references:
+            - builtin:migrated-legacy-rule
+        confidence: medium
+
+    - id: builtin-1183
+      name: CushyCMS
+      category: cms
+      tags:
+        - migrated
+        - cms
+      match:
+        strategy: any
+        probes:
+            - id: default
+              matchers:
+                - type: header.contains
+                  value: _cushy_session
+                  weight: 100
+                  evidence: Migrated HTTP header evidence for CushyCMS
+      metadata:
+        references:
+            - builtin:migrated-legacy-rule
+        confidence: medium
+
+    - id: builtin-1201
+      name: WebsiteBaker-CMS
+      category: cms
+      tags:
+        - migrated
+        - cms
+      match:
+        strategy: any
+        probes:
+            - id: default
+              matchers:
+                - type: header.contains
+                  value: wb_session_id
+                  weight: 100
+                  evidence: Migrated HTTP header evidence for WebsiteBaker-CMS
+      metadata:
+        references:
+            - builtin:migrated-legacy-rule
+        confidence: medium
+
+    - id: builtin-1242
+      name: cm3-cms
+      category: cms
+      tags:
+        - migrated
+        - cms
+      match:
+        strategy: any
+        probes:
+            - id: default
+              matchers:
+                - type: header.contains
+                  value: cm3session
+                  weight: 100
+                  evidence: Migrated HTTP header evidence for cm3-cms
+      metadata:
+        references:
+            - builtin:migrated-legacy-rule
+        confidence: medium
+
+    - id: builtin-1243
+      name: TPshop-cms
+      category: cms
+      tags:
+        - migrated
+        - cms
+      match:
+        strategy: any
+        probes:
+            - id: default
+              matchers:
+                - type: header.contains
+                  value: TPshop-cms
+                  weight: 100
+                  evidence: Migrated HTTP header evidence for TPshop-cms
+      metadata:
+        references:
+            - builtin:migrated-legacy-rule
+        confidence: medium
+
+    - id: builtin-1302
+      name: django CMS
+      category: cms
+      tags:
+        - migrated
+        - cms
+      match:
+        strategy: any
+        probes:
+            - id: default
+              matchers:
+                - type: header.contains
+                  value: django-cms
+                  weight: 100
+                  evidence: Migrated HTTP header evidence for django CMS
+                - type: header.contains
+                  value: django_language
+                  weight: 100
+                  evidence: Migrated HTTP header evidence for django CMS
+      metadata:
+        references:
+            - builtin:migrated-legacy-rule
+        confidence: medium
+
+    - id: builtin-1303
+      name: django CMS
+      category: cms
+      tags:
+        - migrated
+        - cms
+      match:
+        strategy: any
+        probes:
+            - id: default
+              matchers:
+                - type: favicon.hash
+                  value: "1821679946"
+                  weight: 100
+                  evidence: Migrated favicon hash evidence for django CMS
+      metadata:
+        references:
+            - builtin:migrated-legacy-rule
+        confidence: medium
+
+    - id: builtin-1307
+      name: ABO.CMS
+      category: cms
+      tags:
+        - migrated
+        - cms
+      match:
+        strategy: any
+        probes:
+            - id: default
+              matchers:
+                - type: header.contains
+                  value: ABO.CMS
+                  weight: 100
+                  evidence: Migrated HTTP header evidence for ABO.CMS
+      metadata:
+        references:
+            - builtin:migrated-legacy-rule
+        confidence: medium
+
+    - id: builtin-1317
+      name: XYHCMS
+      category: cms
+      tags:
+        - migrated
+        - cms
+      match:
+        strategy: any
+        probes:
+            - id: default
+              matchers:
+                - type: header.contains
+                  value: XYHCMS
+                  weight: 100
+                  evidence: Migrated HTTP header evidence for XYHCMS
+      metadata:
+        references:
+            - builtin:migrated-legacy-rule
+        confidence: medium
+
+    - id: builtin-1533
+      name: ASPCMS
+      category: cms
+      tags:
+        - migrated
+        - cms
+      match:
+        strategy: any
+        probes:
+            - id: default
+              matchers:
+                - type: header.contains
+                  value: ASPSESSIONIDQSQSSSRS
+                  weight: 100
+                  evidence: Migrated HTTP header evidence for ASPCMS
+      metadata:
+        references:
+            - builtin:migrated-legacy-rule
+        confidence: medium
+
+    - id: builtin-1539
+      name: WebsiteBakerCMS
+      category: cms
+      tags:
+        - migrated
+        - cms
+      match:
+        strategy: any
+        probes:
+            - id: default
+              matchers:
+                - type: header.contains
+                  value: wb_session_id
+                  weight: 100
+                  evidence: Migrated HTTP header evidence for WebsiteBakerCMS
+      metadata:
+        references:
+            - builtin:migrated-legacy-rule
+        confidence: medium
+
+    - id: builtin-1543
+      name: DianCMS
+      category: cms
+      tags:
+        - migrated
+        - cms
+      match:
+        strategy: any
+        probes:
+            - id: default
+              matchers:
+                - type: header.contains
+                  value: DianCMS
+                  weight: 100
+                  evidence: Migrated HTTP header evidence for DianCMS
+      metadata:
+        references:
+            - builtin:migrated-legacy-rule
+        confidence: medium
+
+    - id: builtin-1550
+      name: KoobooCMS
+      category: cms
+      tags:
+        - migrated
+        - cms
+      match:
+        strategy: any
+        probes:
+            - id: default
+              matchers:
+                - type: header.contains
+                  value: X-Kooboocms-
+                  weight: 100
+                  evidence: Migrated HTTP header evidence for KoobooCMS
+      metadata:
+        references:
+            - builtin:migrated-legacy-rule
+        confidence: medium
+
+    - id: builtin-1554
+      name: TomatoCMS
+      category: cms
+      tags:
+        - migrated
+        - cms
+      match:
+        strategy: any
+        probes:
+            - id: default
+              matchers:
+                - type: header.contains
+                  value: TomatoCMS
+                  weight: 100
+                  evidence: Migrated HTTP header evidence for TomatoCMS
+      metadata:
+        references:
+            - builtin:migrated-legacy-rule
+        confidence: medium
+
+    - id: builtin-1555
+      name: fidion CMS
+      category: cms
+      tags:
+        - migrated
+        - cms
+      match:
+        strategy: any
+        probes:
+            - id: default
+              matchers:
+                - type: header.contains
+                  value: fidion CMS
+                  weight: 100
+                  evidence: Migrated HTTP header evidence for fidion CMS
+      metadata:
+        references:
+            - builtin:migrated-legacy-rule
+        confidence: medium
+
+    - id: builtin-1556
+      name: UQCMS(UQ云商)
+      category: cms
+      tags:
+        - migrated
+        - cms
+      match:
+        strategy: any
+        probes:
+            - id: default
+              matchers:
+                - type: header.contains
+                  value: UQCMS
+                  weight: 100
+                  evidence: Migrated HTTP header evidence for UQCMS(UQ云商)
+      metadata:
+        references:
+            - builtin:migrated-legacy-rule
+        confidence: medium
+
+    - id: builtin-1562
+      name: ZikulaCMS
+      category: cms
+      tags:
+        - migrated
+        - cms
+      match:
+        strategy: any
+        probes:
+            - id: default
+              matchers:
+                - type: header.contains
+                  value: ZikulaCMS
+                  weight: 100
+                  evidence: Migrated HTTP header evidence for ZikulaCMS
+      metadata:
+        references:
+            - builtin:migrated-legacy-rule
+        confidence: medium
+
+    - id: builtin-1563
+      name: WebYep CMS
+      category: cms
+      tags:
+        - migrated
+        - cms
+      match:
+        strategy: any
+        probes:
+            - id: default
+              matchers:
+                - type: header.contains
+                  value: WebYep CMS
+                  weight: 100
+                  evidence: Migrated HTTP header evidence for WebYep CMS
+      metadata:
+        references:
+            - builtin:migrated-legacy-rule
+        confidence: medium
+
+    - id: builtin-1569
+      name: PigCms
+      category: cms
+      tags:
+        - migrated
+        - cms
+      match:
+        strategy: any
+        probes:
+            - id: default
+              matchers:
+                - type: header.contains
+                  value: PigCms.com
+                  weight: 100
+                  evidence: Migrated HTTP header evidence for PigCms
+      metadata:
+        references:
+            - builtin:migrated-legacy-rule
+        confidence: medium

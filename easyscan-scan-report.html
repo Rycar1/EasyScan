@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>EasyScan 扫描报告</title>
+  <style>
+    :root { color-scheme: light dark; --bg:#f5f7fa; --panel:#fff; --ink:#172033; --muted:#667085; --line:#d9e0ea; --blue:#2166d1; --red:#b42318; }
+    @media (prefers-color-scheme: dark) { :root { --bg:#111827; --panel:#182234; --ink:#eef3fc; --muted:#b2bfd1; --line:#34435a; --blue:#89b4ff; --red:#ffaaa1; } }
+    * { box-sizing:border-box; } body { margin:0; background:var(--bg); color:var(--ink); font:14px/1.5 "Segoe UI",system-ui,sans-serif; }
+    main { width:min(1180px, calc(100% - 32px)); margin:0 auto; padding:36px 0 56px; }
+    header { display:flex; justify-content:space-between; gap:24px; align-items:end; margin-bottom:24px; } h1 { margin:0; font-size:30px; letter-spacing:-.03em; } h2 { margin:0; font-size:20px; } .generated { margin:5px 0 0; color:var(--muted); font-size:12px; } nav { display:flex; gap:8px; flex-wrap:wrap; } nav a { border:1px solid var(--line); border-radius:6px; color:var(--blue); padding:7px 10px; text-decoration:none; font-size:12px; }
+    .summary { display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:12px; margin-bottom:18px; } .metric, section { border:1px solid var(--line); border-radius:9px; background:var(--panel); } .metric { padding:17px; } .metric small { color:var(--muted); display:block; } .metric strong { display:block; margin-top:4px; font-size:29px; line-height:1; }
+    section { margin-top:18px; overflow:hidden; } .section-head { display:flex; justify-content:space-between; gap:12px; align-items:baseline; padding:17px 18px; border-bottom:1px solid var(--line); } .section-head p { margin:3px 0 0; color:var(--muted); font-size:12px; } .count { color:var(--muted); font-variant-numeric:tabular-nums; }
+    .table-wrap { overflow:auto; } table { border-collapse:collapse; min-width:760px; width:100%; } th, td { padding:12px 16px; border-bottom:1px solid var(--line); text-align:left; vertical-align:top; } tr:last-child td { border-bottom:0; } th { background:color-mix(in srgb, var(--panel) 84%, var(--line)); color:var(--muted); font-size:11px; font-weight:650; letter-spacing:.05em; text-transform:uppercase; } code { font:12px/1.45 ui-monospace,SFMono-Regular,Consolas,monospace; overflow-wrap:anywhere; } .severity { display:inline-block; color:var(--red); font-weight:700; text-transform:uppercase; } .empty { padding:34px 18px; color:var(--muted); text-align:center; } .tags { display:flex; flex-wrap:wrap; gap:4px; margin-top:6px; } .tag { border:1px solid var(--line); border-radius:999px; color:var(--muted); font-size:11px; padding:1px 6px; }
+    footer { color:var(--muted); font-size:12px; margin-top:18px; } @media(max-width:680px) { main { width:min(100% - 20px, 1180px); padding-top:22px; } header { align-items:start; flex-direction:column; } .summary { grid-template-columns:1fr; } }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <div><h1>EasyScan 扫描报告</h1><p class="generated">生成时间：2026-08-13T04:00:00Z</p></div>
+      <nav aria-label="报告分区"><a href="#vulnerabilities">漏洞结果</a><a href="#fingerprints">指纹识别</a></nav>
+    </header>
+    <div class="summary" aria-label="报告概览">
+      <article class="metric"><small>漏洞结果</small><strong>1</strong></article>
+      <article class="metric"><small>已观察资产</small><strong>5</strong></article>
+      <article class="metric"><small>指纹识别</small><strong>6</strong></article>
+    </div>
+    <section id="vulnerabilities">
+      <div class="section-head"><div><h2>漏洞结果</h2><p>按规则与 URL 去重后的被动发现。</p></div><span class="count">1 条</span></div>
+      <div class="table-wrap"><table><thead><tr><th>风险</th><th>标题 / 规则</th><th>位置</th><th>说明</th><th>发现时间</th></tr></thead><tbody>
+        <tr><td><span class="severity">info</span></td><td><strong>存在 WAF</strong><br><code>passive.waf-probe.unknown</code><div class="tags"><span class="tag">waf</span><span class="tag">active-probe</span><span class="tag">sqli</span></div></td><td><code>GET http://rycarl.cn:80/?id=1%27&#43;or&#43;%271%27%3D%271</code></td><td>对新出现的域名 http://rycarl.cn:80 发送了一次 sqli canary 探测（payload：1&#39; or &#39;1&#39;=&#39;1），响应与正常基线存在明显差异，判定该域名前置存在 WAF。 未能识别具体厂商。</td><td>2026-08-13 11:57:35 CST</td></tr>
+      </tbody></table></div>
+    </section>
+    <section id="fingerprints">
+      <div class="section-head"><div><h2>指纹识别</h2><p>基于已捕获流量的主机与产品/边缘服务指纹。</p></div><span class="count">6 条</span></div>
+      <div class="table-wrap"><table><thead><tr><th>主机</th><th>指纹</th><th>已观察 URL</th><th>接口</th><th>最后出现</th></tr></thead><tbody>
+        <tr><td><code>api.iconify.design</code></td><td><code>CDN · Cloudflare</code></td><td>2</td><td>2</td><td>2026-08-13 11:57:38 CST</td></tr>
+        <tr><td><code>rycarl.cn</code></td><td><code>CDN · HTTP/3 Alt-Svc</code></td><td>2</td><td>2</td><td>2026-08-13 11:57:35 CST</td></tr>
+        <tr><td><code>rycarl.cn</code></td><td><code>CDN · Tencent-CDN</code></td><td>2</td><td>2</td><td>2026-08-13 11:57:35 CST</td></tr>
+        <tr><td><code>rycarl.cn</code></td><td><code>nginx</code></td><td>2</td><td>2</td><td>2026-08-13 11:57:35 CST</td></tr>
+        <tr><td><code>www.google.com.hk</code></td><td><code>CDN · HTTP/3 Alt-Svc</code></td><td>3</td><td>2</td><td>2026-08-13 11:57:18 CST</td></tr>
+        <tr><td><code>www.gstatic.com</code></td><td><code>CDN · HTTP/3 Alt-Svc</code></td><td>1</td><td>1</td><td>2026-08-13 11:57:18 CST</td></tr>
+      </tbody></table></div>
+    </section>
+    <footer>EasyScan 本地离线 HTML 报告 · 不包含原始 HTTP 正文。</footer>
+  </main>
+</body>
+</html>
