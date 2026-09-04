@@ -216,12 +216,3 @@ active:
 
 端口扫描、目录扫描、HTTP Basic 认证检测、网站爬取、浏览器爬取和 XSS 检测均受 allowlist、授权确认、速率、并发和请求上限约束。MITM SQL 检测仅对已观测参数执行固定报错、真假条件与 0.8 秒延时复核，不执行联合查询、数据提取或写入语句。
 
-## EZ WebScan 配置对照
-
-`easyscan.yaml` 新增了 `webscan` 配置块，采用与 `D:\ez_scan\config.yaml` 相近的 HTTP 和爬取控制项：
-
-- `webscan.http`：`max_qps`、`retry`、`timeout_seconds`、`max_redirect`、普通/强制请求头、连续失败熔断、禁扫路径及严格同源限制；
-- `webscan.crawler`：Chrome 路径、沙箱、禁图、User-Agent、最大深度、最大页面数和后缀排除；
-- `webscan` 选项只作用于手工创建的主动任务。HFinger 不读取该配置，只匹配 MITM 已捕获响应。
-
-`headers_force` 不接受 `Host`、`Content-Length`、代理或连接控制头，临时登录会话头仍只保存在内存中。`max_failures` 达到时会停止该任务的后续 HTTP 请求；`retry` 仅重试传输错误，最大为 3。
